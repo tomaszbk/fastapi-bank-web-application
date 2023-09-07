@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yes or No Question</title>
+    <link href="{{ url_for('static', path='styles/index.css') }}" rel="stylesheet">
+</head>
+<body>
+    <h1>Yes or No Question</h1>
+    <p id="question"></p>
+    <button id="yes-btn">Yes</button>
+    <button id="no-btn">No</button>
+    <div id="response"></div>
+    {% block javascript %}
+    <script src="{{ url_for('static', path='scripts/questions.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

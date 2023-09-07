@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', path='styles/index.css') }}" rel="stylesheet">
+    <title>Register</title>
+</head>
+<body>
+    <h2>User Registration Form</h2>
+    <form method="POST">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required><br><br>
+  
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required><br><br>
+  
+      <label for="surname">Surname:</label>
+      <input type="text" id="surname" name="surname" required><br><br>
+  
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required><br><br>
+  
+      <label for="skinColor">Skin Color:</label>
+      <select id="skinColor" name="skinColor" required>
+        <option value="light">Light</option>
+        <option value="medium">Medium</option>
+        <option value="dark">Dark</option>
+      </select><br><br>
+  
+      <a href="/questionnaire"><input class="btn" type="submit" value="Register"></a>
+    </form>
+  </body>
+</html>
