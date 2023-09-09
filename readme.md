@@ -18,3 +18,8 @@ Ante la solicitud de un débito, el sistema deberá recibir y validar un "token"
 previamente por el cliente, indicando un número de operación.
 El token será utilizado por la entidad de 3ro, y deberá enviarlo de manera conjunta con un 
 Nro de operación de referencia
+
+## HOW TO USE
+
+python -m venv myenv
+pip install -r requirements.txt
