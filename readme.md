@@ -21,5 +21,6 @@ Nro de operación de referencia
 
 ## HOW TO USE
 
+#### Create a python virtual env:
 python -m venv myenv
 pip install -r requirements.txt

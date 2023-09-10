@@ -5,6 +5,8 @@ from fastapi.requests import Request
 from api.routes.bank_routes import router as bank_router
 from loguru import logger
 
+
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
