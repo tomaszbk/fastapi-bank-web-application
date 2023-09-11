@@ -4,11 +4,19 @@ from fastapi.responses import JSONResponse
 from fastapi.requests import Request
 from api.routes.bank_routes import router as bank_router
 from loguru import logger
-
+from jinja2 import TemplateNotFound
 
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.exception_handler(TemplateNotFound)
+def template_not_found_exception(request: Request, exc: Exception):
+    logger.error(f"template not found in {request.__dict__['scope']['route']}: {exc}")
+    return JSONResponse(
+        status_code=404,
+        content={"message": "No such template"},
+    )
 
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exc: Exception):
