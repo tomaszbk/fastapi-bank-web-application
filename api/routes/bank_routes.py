@@ -14,14 +14,14 @@ router = APIRouter()
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@router.get("/register")
-def register(request: Request):
-    return templates.TemplateResponse("signup.html", {"request": request})
-
-@router.get("/contact")
-def contact(request: Request):
-    return templates.TemplateResponse("contact.html", {"request": request})
-
 @router.get("/{route}")
 def route_by_param(route: str, request: Request):
     return templates.TemplateResponse(f"{route}.html", {"request": request})
+
+@router.post("/login")
+def login(request: Request):
+    return templates.TemplateResponse("signup.html", {"request": request})
+
+@router.post("/signup")
+def signup(request: Request):
+    return templates.TemplateResponse("signup.html", {"request": request})
