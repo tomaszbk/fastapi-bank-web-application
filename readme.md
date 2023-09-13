@@ -1,6 +1,7 @@
 ## Solicitud para Evaluación y Presupuestación de un Sistema de Gestión Financiera  (Banco)
 A través de la misma se solicita la evaluación y presupuestación de una plataforma online 
 que permita el registro de clientes, validación de identidad, y apertura de caja de ahorro.
+
 A través de la plataforma, los clientes deberán poder registrarse y dar de alta una cuenta 
 bancaria. 
 
