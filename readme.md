@@ -22,6 +22,5 @@ Nro de operación de referencia
 
 ## HOW TO USE
 
-#### Create a python virtual env:
-python -m venv myenv
-pip install -r requirements.txt
+#### Install python dependencies in a venv with poetry:
+$ poetry install

@@ -2,15 +2,11 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from fastapi.requests import Request
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
-
-from api.routes.bank_routes import router as bank_router
 from loguru import logger
 from jinja2 import TemplateNotFound
+from api.routes.bank_routes import router as bank_router
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
