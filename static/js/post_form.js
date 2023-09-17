@@ -22,16 +22,19 @@ function submitForm() {
         body: JSON.stringify(formData),
     })
     .then(response => {
-        window.alert(response.json());
-        if (response.ok) {
-            // Handle the redirect response
-            window.location.href = '/login';
-        } else {
-            // Handle other responses (e.g., errors)
-            console.alert(response.json());
-            console.error('Error:', response.status);
-            throw new Error('Request failed with status ' + response.status);
-        }
+        response.json().then(data => {
+            if (response.ok) {
+                // Handle the redirect response
+                window.alert(data.message);
+                window.location.href = '/login';
+            }else {
+                // Handle other responses (e.g., errors)
+                window.alert(data.detail);
+                console.log(response);
+                console.error('Error:', response.status);
+                throw new Error('Request failed with status ' + response.status);
+            }
+        })
     })
     .catch(error => {
         console.error('Error:', error);

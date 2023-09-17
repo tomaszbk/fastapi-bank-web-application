@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm 
 from typing import Annotated
+from api.routes.bank_routes import db
 
-db = {}
 class Security():
 
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -27,7 +27,7 @@ class Security():
         user = db.get(username, None)
         if not user:
             return False
-        if not self.verify_password(password, user.hashed_password):
+        if not self.verify_password(password, user.get('hashed_password')):
             return False
         return user
     
