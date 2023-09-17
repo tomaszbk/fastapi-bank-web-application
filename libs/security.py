@@ -41,6 +41,9 @@ class Security():
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
     
+    # Depends(oauth2_scheme): look in the request for the Authorization header, 
+    # check if value is Bearer plus some token, and will returns the token as str
+    # Otherwise, 401 status code error (UNAUTHORIZED)
     async def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)]):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
