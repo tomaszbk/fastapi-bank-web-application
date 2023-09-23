@@ -52,6 +52,7 @@ function submitForm() {
         })
     }).catch(error => {
         console.error('Error:', error);
+        window.alert(error);
     });
 
 }

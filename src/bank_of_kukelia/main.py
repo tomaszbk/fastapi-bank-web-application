@@ -4,7 +4,9 @@ from fastapi.responses import JSONResponse
 from fastapi.requests import Request
 from loguru import logger
 from jinja2 import TemplateNotFound
-from api.routes.bank_routes import router as bank_router
+from api.routes.home_routes import router as home_router
+from api.routes.auth_routes import router as security_router
+# from api.routes.operation_routes import router as operation_router
 
 
 app = FastAPI()
@@ -26,7 +28,8 @@ async def exception_handler(request: Request, exc: Exception):
         content={"message": "Internal Server Error"},
     )
 
-app.include_router(bank_router)
+app.include_router(home_router)
+app.include_router(security_router, prefix='/auth')
 
 if __name__ == "__main__":
     import uvicorn

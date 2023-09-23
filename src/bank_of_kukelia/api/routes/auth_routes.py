@@ -1,50 +1,38 @@
-db = {}
 from fastapi import APIRouter, Request, HTTPException, status, Depends
 from fastapi.templating import Jinja2Templates
-from loguru import logger
-from api.schemas.auth_schemas import Token
-from api.schemas.user_schemas import User
-from libs.security import security
 from fastapi.responses import JSONResponse
+from loguru import logger
+from api.schemas.user_schemas import User
+from bank_of_kukelia.domain.auth import auth
+from fastapi import Form
 from typing import Annotated
+from domain import user_repository
+from api.schemas.auth_schemas import Token
 from datetime import timedelta
-from fastapi.security import OAuth2PasswordRequestForm 
-
-
-templates = Jinja2Templates(directory="static/templates")
+from services.user_service import user_already_exists
+from
 
 router = APIRouter()
-
-
-@router.get("/")
-def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-@router.get("/{route}")
-def route_by_param(route: str, request: Request):
-    return templates.TemplateResponse(f"{route}.html", {"request": request})
-
-
-@router.get('/{route}/x')
-def restricted(route: str, request: Request, current_user = Depends(security.get_current_user)):
-    return templates.TemplateResponse("restricted.html", {"request": request})
 
 @router.post("/register")
 def register(form_data : User):
     #TODO get user from real db
     logger.info('starting user registration')
-    if db.get(form_data.username) is not None:
+
+    # if db.get(form_data.username) is not None:
+    if user_already_exists(form_data.username):
         logger.warning('User with this email already exist')
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User with this email already exist"
+            detail="User with this email already exists"
             )
     user = {
         'email': form_data.email,
-        'hashed_password': security.get_hashed_password(form_data.password)
+        'hashed_password': auth.get_hashed_password(form_data.password)
     }
     db[form_data.username] = user # TODO saving user to real database
     logger.info(f'new user {form_data.username} created')
     return JSONResponse(content={"message": "Registration successful"})
+
 
 @router.post("/login", response_model=Token)
 async def login_for_access_token(

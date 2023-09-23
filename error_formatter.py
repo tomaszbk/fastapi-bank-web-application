@@ -9,9 +9,11 @@ def catch_exception(func):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except CustomException as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            print("E=%s, F=%s, L=%s" % (str(e), traceback.extract_tb(exc_tb)[-1][0], traceback.extract_tb(exc_tb)[-1][1])) 
+        except CustomException as ex:
+            _, _, exc_tb = sys.exc_info()
+            print("E=%s, F=%s, L=%s" % (str(ex), traceback.extract_tb(exc_tb)[-1][0], 
+                                        traceback.extract_tb(exc_tb)[-1][1]))
+            return None
     return wrapper
 
 # Apply the decorator to a function

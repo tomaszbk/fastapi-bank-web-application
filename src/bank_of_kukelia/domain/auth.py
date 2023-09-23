@@ -4,9 +4,10 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm 
 from typing import Annotated
-from api.routes.bank_routes import db
+from api.routes.home_routes import db
 
-class Security():
+
+class Auth():
 
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -16,13 +17,13 @@ class Security():
         self.ALGORITHM = 'HS256'
         self.ACCESS_TOKEN_EXPIRE_MINUTES = 30
         
-    def get_hashed_password(self, password :str) -> str:
+    def get_hashed_password(self, password: str) -> str:
         return self.pwd_context.hash(password)
     
-    def verify_password(self, plain_password :str, hashed_password :str) -> bool:
+    def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return self.pwd_context.verify(plain_password, hashed_password)
     
-    def authenticate_user(self, username, password :str):
+    def authenticate_user(self, username, password: str):
         # get user from database
         user = db.get(username, None)
         if not user:
@@ -61,7 +62,7 @@ class Security():
         if user is None:
             raise credentials_exception
         return user
-    
+
 
     # async def get_current_active_user(self,
     #     current_user: Annotated[User, Depends(get_current_user)]
@@ -69,5 +70,5 @@ class Security():
     #     if current_user.disabled:
     #         raise HTTPException(status_code=400, detail="Inactive user")
     #     return current_user
-    
-security : Security = Security()
+
+auth: Auth = Auth()
