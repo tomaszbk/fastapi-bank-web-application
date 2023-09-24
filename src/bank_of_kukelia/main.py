@@ -10,7 +10,7 @@ from api.routes.auth_routes import router as security_router
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="api/static"), name="static")
 
 @app.exception_handler(TemplateNotFound)
 def template_not_found_exception(request: Request, exc: Exception):
