@@ -2,6 +2,9 @@ class UserRepository():
     def __init__(self, db):
         pass
 
+    def add(self, user):
+        pass
+
     def get(self, user_id):
         pass
 

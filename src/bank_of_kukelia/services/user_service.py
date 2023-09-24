@@ -5,7 +5,7 @@ from .auth_service import auth
 
 
 def user_already_exists(user_repo :UserRepository, username: str):
-    return user_repo.get_user(username) is not None
+    return user_repo.get(username) is not None
 
 
 def create_user(user_repo :UserRepository, form_data: UserLoginForm):
@@ -19,5 +19,5 @@ def create_user(user_repo :UserRepository, form_data: UserLoginForm):
                 name=form_data.name,
                 surname=form_data.surname
                 )
-    user_repo.add_user(user)
+    user_repo.add(user)
     return user

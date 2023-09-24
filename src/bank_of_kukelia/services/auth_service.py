@@ -24,7 +24,7 @@ class Auth():
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return self.pwd_context.verify(plain_password, hashed_password)
 
-    def authenticate_user(user_repo, self, username, password: str):
+    def authenticate_user(self ,user_repo, username, password: str):
         # get user from database
         user = user_repo.get(username, None)
         if not user:
@@ -43,6 +43,7 @@ class Auth():
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
 
+
     # Depends(oauth2_scheme): look in the request for the Authorization header,
     # check if value is Bearer plus some token, and returns the token as str
     # Otherwise, 401 status code error (UNAUTHORIZED)
@@ -55,7 +56,7 @@ class Auth():
                                 )
         try:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
-            username: str = payload.get("sub")
+            username = payload.get("sub")
             if username is None:
                 raise credentials_exception
         except JWTError:
