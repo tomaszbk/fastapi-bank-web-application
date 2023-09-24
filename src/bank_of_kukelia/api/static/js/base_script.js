@@ -7,7 +7,7 @@ if (username === null) {
     login_button = document.createElement('div');
 
     // Set the HTML content using template literals
-    login_button.innerHTML = `<a href="/auth/login"><button type="button" class="btn btn-primary">Log in</button></a>`;
+    login_button.innerHTML = `<a href="/login"><button type="button" class="btn btn-primary">Log in</button></a>`;
     nav_options.appendChild(login_button);
 }else{
     user_button = document.createElement('div');
