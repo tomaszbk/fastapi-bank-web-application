@@ -1,13 +1,13 @@
-from src.bank_of_kukelia.services.user_service import user_already_exists, create_user
-from src.bank_of_kukelia.api.schemas.user_schemas import UserLoginForm
-from tests.repositories.fake_user_repo import FakeUserRepository
+from services.user_service import user_already_exists, create_user
+from api.schemas.user_schemas import UserLoginForm
+from test_repositories.fake_user_repo import FakeUserRepository
 
 import pytest
 
 
 # Define a fixture to create a common variable
 @pytest.fixture
-def common_variable():
+def fake_user_repo():
     # You can initialize the common variable here
     fake_user_repo = FakeUserRepository()
     yield fake_user_repo
