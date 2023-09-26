@@ -1,8 +1,8 @@
+import pytest
+
 from services.user_service import user_already_exists, create_user
 from api.schemas.user_schemas import UserLoginForm
-from test_repositories.fake_user_repo import FakeUserRepository
-
-import pytest
+from .test_repositories.fake_user_repo import FakeUserRepository
 
 
 # Define a fixture to create a common variable
