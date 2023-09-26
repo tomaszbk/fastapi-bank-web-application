@@ -1,24 +1,25 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
-
 from loguru import logger
-from api.schemas.user_schemas import UserLoginForm
-from services.auth_service import auth
 from typing import Annotated
-from api.schemas.auth_schemas import Token
 from datetime import timedelta
+
+from entrypoints.api.schemas.user_schemas import UserLoginForm
+
+from services.auth_service import auth
+from services.user_service import user_already_exists, create_user
+from entrypoints.api.schemas.auth_schemas import Token
 
 from adapters.db.orm import get_session
 from adapters.repositories.user_repo import UserSqlAlchemyRepo
-from services.user_service import user_already_exists, create_user
 
 
 
 router = APIRouter()
 
 @router.post("/register")
-def register(form_data : UserLoginForm, session = Depends(get_session)):
+async def register(form_data : UserLoginForm, session = Depends(get_session)):
     logger.info('starting user registration')
     user_repo = UserSqlAlchemyRepo(session)
 

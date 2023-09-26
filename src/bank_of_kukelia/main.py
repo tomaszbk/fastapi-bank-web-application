@@ -4,13 +4,13 @@ from fastapi.responses import JSONResponse
 from fastapi.requests import Request
 from loguru import logger
 from jinja2 import TemplateNotFound
-from api.routes.home_routes import router as home_router
-from api.routes.auth_routes import router as security_router
+from entrypoints.api.routes.home_routes import router as home_router
+from entrypoints.api.routes.auth_routes import router as security_router
 # from api.routes.operation_routes import router as operation_router
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="api/static"), name="static")
+app.mount("/static", StaticFiles(directory="entrypoints/api/static"), name="static")
 
 @app.exception_handler(TemplateNotFound)
 def template_not_found_exception(request: Request, exc: Exception):
