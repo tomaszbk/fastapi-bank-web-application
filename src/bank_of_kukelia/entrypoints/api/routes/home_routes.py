@@ -7,7 +7,7 @@ from services.auth_service import auth
 from datetime import timedelta
 
 
-templates = Jinja2Templates(directory="api/templates")
+templates = Jinja2Templates(directory="entrypoints/api/templates")
 
 router = APIRouter()
 

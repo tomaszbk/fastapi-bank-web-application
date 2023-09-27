@@ -6,6 +6,8 @@ from loguru import logger
 from jinja2 import TemplateNotFound
 from entrypoints.api.routes.home_routes import router as home_router
 from entrypoints.api.routes.auth_routes import router as security_router
+
+from adapters.db.orm import start_mappers
 # from api.routes.operation_routes import router as operation_router
 
 
@@ -30,6 +32,8 @@ async def exception_handler(request: Request, exc: Exception):
 
 app.include_router(home_router)
 app.include_router(security_router, prefix='/auth')
+
+start_mappers()
 
 if __name__ == "__main__":
     import uvicorn
