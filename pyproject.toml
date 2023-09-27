@@ -43,7 +43,7 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     # "C901",  # complexity
 ]
-src = ["src"]
+src = ["src/bank_of_kukelia"]
 target-version = "py311"
 
 [tool.poetry.group.dev.dependencies]

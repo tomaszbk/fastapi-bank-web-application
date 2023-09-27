@@ -9,7 +9,7 @@
             "host": "localhost",
             "pathMappings": [
                 {
-                    "localRoot": "${workspaceFolder}",
+                    "localRoot": "${workspaceFolder}/src/bank_of_kukelia",
                     "remoteRoot": "/app"
                 }
             ]

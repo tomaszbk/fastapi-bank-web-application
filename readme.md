@@ -21,6 +21,9 @@ El token será utilizado por la entidad de 3ro, y deberá enviarlo de manera con
 Nro de operación de referencia
 
 ## HOW TO USE
-
+## Requirements
+- Install poetry:
+windows:
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 #### Install python dependencies in a venv with poetry:
 $ poetry install
