@@ -23,7 +23,7 @@ function submitForm() {
     formBody = formBody.join("&");
     console.log(formBody);
     // window.location.href is the current page's URL
-    fetch(window.location.href, {
+    fetch('auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
@@ -35,9 +35,11 @@ function submitForm() {
             if (response.ok) {
 
                 // Handle the redirect response
+                console.log(data);
                 window.alert(data);
+                window.alert(data.access_token);
                 // store received token in local storage
-                localStorage.setItem('jwtToken', data.token);
+                localStorage.setItem('access_token', data.access_token);
                 localStorage.setItem('username', formData["username"]);
                 
                 // redirect to home page

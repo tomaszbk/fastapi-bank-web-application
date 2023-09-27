@@ -8,9 +8,11 @@ from typing import Annotated
 from adapters.repositories.user_repo import UserSqlAlchemyRepo
 from adapters.db.orm import get_session
 
+from domain.ports.user_repository import UserRepository
+
 class Auth():
 
-    oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+    oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
     def __init__(self) -> None:
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -24,12 +26,12 @@ class Auth():
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return self.pwd_context.verify(plain_password, hashed_password)
 
-    def authenticate_user(self ,user_repo, username, password: str):
+    def authenticate_user(self ,user_repo: UserRepository, username, password: str):
         # get user from database
-        user = user_repo.get(username, None)
+        user = user_repo.get_by_username(username)
         if not user:
             return False
-        if not self.verify_password(password, user.get('hashed_password')):
+        if not self.verify_password(password, user.hashed_password):
             return False
         return user
 

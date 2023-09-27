@@ -1,5 +1,5 @@
-let jwtToken = localStorage.getItem('jwtToken');
-let username = localStorage.getItem('user');
+let access_token = localStorage.getItem('access_token');
+let username = localStorage.getItem('username');
 
 let nav_options = document.getElementById('nav-options');
 // check if user is null

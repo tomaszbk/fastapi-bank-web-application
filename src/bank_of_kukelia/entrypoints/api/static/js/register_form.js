@@ -14,7 +14,7 @@ function submitForm() {
     }
 
     // window.location.href is the current page's URL
-    fetch(window.location.href, {
+    fetch('auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
