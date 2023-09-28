@@ -13,7 +13,7 @@ class UserSqlAlchemyRepo(UserRepository):
         return user
 
     def get(self, user_id):
-        user = self.db.query(User).filter(UserSqlAlchemy.id == user_id).one_or_none()
+        user = self.db.query(User).filter(User.id == user_id).one_or_none() # type: ignore
         return user
 
     def get_by_username(self, username):

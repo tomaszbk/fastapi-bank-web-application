@@ -8,7 +8,7 @@ bancaria.
 A aquellos clientes que soliciten la apertura de cuenta, se les otorgará un saldo inicial de 
 $100000.
 Se requiere que los clientes tengan la capacidad de:
-- Registrarse como nuevos clientes
+- Registrarse como nuevos clientes ✅
 - Poseer una caja de ahorro, de alta automática durante el registro, con un saldo inicial de 
 $100000.
 - Generar códigos de autorización de débitos para utilizar en plataformas externas.
