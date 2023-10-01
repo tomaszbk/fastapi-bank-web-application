@@ -1,6 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.requests import Request
 from loguru import logger
 from jinja2 import TemplateNotFound
@@ -29,6 +29,11 @@ async def exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={"message": "Internal Server Error"},
     )
+
+@app.exception_handler(404)
+async def not_found_exception_handler(request: Request, exc: HTTPException):
+    return RedirectResponse('/not_found')
+
 
 app.include_router(home_router)
 app.include_router(security_router, prefix='/auth')

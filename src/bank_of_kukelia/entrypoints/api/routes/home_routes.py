@@ -17,9 +17,18 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+@router.get('/not_found')
+def not_found_view(request: Request):
+    logger.info("returning 404 page")
+    return templates.TemplateResponse("404_not_found.html", {"request": request})
+
+
 @router.get("/{route}")
 async def route_by_param(route: str, request: Request):
-    return templates.TemplateResponse(f"{route}.html", {"request": request})
+    try:
+        return templates.TemplateResponse(f"{route}.html", {"request": request})
+    except Exception as ex:
+        raise HTTPException(status_code=404, detail="Item not found") from ex
 
 
 @router.get('/{route}/x')
