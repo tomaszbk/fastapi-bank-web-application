@@ -38,6 +38,14 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 app.include_router(home_router)
 app.include_router(security_router, prefix='/auth')
 
+# @app.middleware("http")
+# async def redirect_on_not_found(request: Request, call_next):
+#     response = await call_next(request)
+#     if response.status_code == 404:
+#         return RedirectResponse("https://fastapi.tiangolo.com")
+#     else:
+#         return response
+
 start_mappers()
 
 if __name__ == "__main__":

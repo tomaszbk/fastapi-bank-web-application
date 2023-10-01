@@ -4,8 +4,6 @@ from loguru import logger
 
 from services.auth_service import auth
 
-from datetime import timedelta
-
 
 templates = Jinja2Templates(directory="entrypoints/api/templates")
 
