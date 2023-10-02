@@ -21,13 +21,22 @@ def not_found_view(request: Request):
     return templates.TemplateResponse("404_not_found.html", {"request": request})
 
 
-@router.get("/{route}")
-async def route_by_param(route: str, request: Request):
-    try:
-        return templates.TemplateResponse(f"{route}.html", {"request": request})
-    except Exception as ex:
-        raise HTTPException(status_code=404, detail="Item not found") from ex
+@router.get("/about")
+async def about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
 
+
+@router.get("/contact")
+async def contact(request: Request):
+    return templates.TemplateResponse("contact.html", {"request": request})
+
+@router.get("/login")
+async def login_view(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get("/register")
+async def register_view(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
 
 @router.get('/{route}/x')
 def restricted(route: str, request: Request, current_user= Depends(auth.get_current_user)):

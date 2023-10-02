@@ -4,8 +4,10 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.requests import Request
 from loguru import logger
 from jinja2 import TemplateNotFound
+
 from entrypoints.api.routes.home_routes import router as home_router
 from entrypoints.api.routes.auth_routes import router as security_router
+from entrypoints.api.routes.dashboard_routes import router as dashboard_router
 
 from adapters.db.orm import start_mappers
 # from api.routes.operation_routes import router as operation_router
@@ -37,6 +39,7 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 
 app.include_router(home_router)
 app.include_router(security_router, prefix='/auth')
+app.include_router(dashboard_router, prefix='/dashboard')
 
 # @app.middleware("http")
 # async def redirect_on_not_found(request: Request, call_next):

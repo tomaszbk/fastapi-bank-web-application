@@ -1,7 +1,7 @@
 from domain.models.models import User
 from domain.ports.user_repository import UserRepository
 from entrypoints.api.schemas.user_schemas import UserLoginForm
-from .auth_service import auth
+from services.auth_service import auth
 
 
 def user_already_exists(user_repo: UserRepository, username: str):
