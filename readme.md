@@ -27,3 +27,8 @@ windows:
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 #### Install python dependencies in a venv with poetry:
 $ poetry install
+
+### Sqlacodegen
+
+sqlacodegen_v2 postgresql:///some_local_db
+sqlacodegen_v2 --generator tables mysql+pymysql://user:password@localhost/dbname
