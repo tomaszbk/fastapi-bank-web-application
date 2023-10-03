@@ -9,9 +9,6 @@ from entrypoints.api.routes.home_routes import router as home_router
 from entrypoints.api.routes.auth_routes import router as security_router
 from entrypoints.api.routes.dashboard_routes import router as dashboard_router
 
-from adapters.db.orm import start_mappers
-# from api.routes.operation_routes import router as operation_router
-
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="entrypoints/api/static"), name="static")
@@ -48,8 +45,6 @@ app.include_router(dashboard_router, prefix='/dashboard')
 #         return RedirectResponse("https://fastapi.tiangolo.com")
 #     else:
 #         return response
-
-start_mappers()
 
 if __name__ == "__main__":
     import uvicorn
