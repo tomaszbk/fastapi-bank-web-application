@@ -1,14 +1,14 @@
-from domain.models.models import User
-from domain.ports.user_repository import UserRepository
+from infrastructure.models import User
 from entrypoints.api.schemas.user_schemas import UserLoginForm
 from services.auth_service import auth
+from sqlalchemy.orm import Session
 
 
-def user_already_exists(user_repo: UserRepository, username: str):
-    return user_repo.get_by_username(username) is not None
+def user_already_exists(session: Session, username: str):
+    return session.query(User).filter(User.username == username).one_or_none() is not None
 
 
-def create_user(user_repo: UserRepository, form_data: UserLoginForm):
+def create_user(session: Session, form_data: UserLoginForm):
     hashed_password = auth.get_hashed_password(form_data.password)
     user = User(
         username=form_data.username,
@@ -19,5 +19,6 @@ def create_user(user_repo: UserRepository, form_data: UserLoginForm):
         name=form_data.name,
         surname=form_data.surname,
     )
-    user_repo.add(user)
+    session.add(user)
+    session.commit()
     return user

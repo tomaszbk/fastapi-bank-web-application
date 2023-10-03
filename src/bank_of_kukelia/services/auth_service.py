@@ -1,14 +1,14 @@
 from passlib.context import CryptContext
-from jose import JWTError, jwt
+from jose import JWTError, jwt, ExpiredSignatureError
 from datetime import datetime, timedelta
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
+from sqlalchemy.orm import Session
 
-from adapters.repositories.user_repo import UserSqlAlchemyRepo
-from adapters.db.orm import get_session
+from infrastructure.models import User
+from infrastructure.engine import postgres_session_factory
 
-from domain.ports.user_repository import UserRepository
 
 class Auth():
 
@@ -26,9 +26,9 @@ class Auth():
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return self.pwd_context.verify(plain_password, hashed_password)
 
-    def authenticate_user(self ,user_repo: UserRepository, username, password: str):
+    def authenticate_user(self, session: Session, username, password: str):
         # get user from database
-        user = user_repo.get_by_username(username)
+        user = session.query(User).filter(User.username == username).one_or_none()
         if not user:
             return False
         if not self.verify_password(password, user.hashed_password):
@@ -40,7 +40,7 @@ class Auth():
         if expires_delta:
             expire = datetime.utcnow() + expires_delta
         else:
-            expire = datetime.utcnow() + timedelta(minutes=15)
+            expire = datetime.utcnow() + timedelta(minutes=30)
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
@@ -49,23 +49,21 @@ class Auth():
     # Depends(oauth2_scheme): look in the request for the Authorization header,
     # check if value is Bearer plus some token, and returns the token as str
     # Otherwise, 401 status code error (UNAUTHORIZED)
-    async def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)],
-                               user_repo = UserSqlAlchemyRepo(Depends(get_session))):
-        credentials_exception = HTTPException(
-                                status_code=status.HTTP_401_UNAUTHORIZED,
-                                detail="Could not validate credentials",
-                                headers={"WWW-Authenticate": "Bearer"},
-                                )
+    async def get_current_user_from_header(self, token: Annotated[str, Depends(oauth2_scheme)],):
+        return await self.get_current_active_user(token)
+
+    async def get_current_user_from_url(self, token: str):
+        return await self.get_current_active_user(token)
+
+    async def get_current_active_user(self, token: str, session = postgres_session_factory.get_session()):
         try:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
-            username = payload.get("sub")
-            if username is None:
-                raise credentials_exception
-        except JWTError:
-            raise credentials_exception
-        user = user_repo.get(username)
+        except ExpiredSignatureError as ex:
+            raise Exception('Signature has expired') from ex
+        username = payload.get("sub")
+        user = session.query(User).filter(User.username == username).one_or_none()
         if user is None:
-            raise credentials_exception
+            raise Exception('User not found')
         return user
 
 auth: Auth = Auth()

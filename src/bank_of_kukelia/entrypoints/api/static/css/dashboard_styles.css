@@ -10,6 +10,9 @@ body {
   background: #f6f9ff;
   color: #444444;
 }
+.side_button:hover {
+  cursor: pointer;
+}
 
 a {
   color: #4154f1;

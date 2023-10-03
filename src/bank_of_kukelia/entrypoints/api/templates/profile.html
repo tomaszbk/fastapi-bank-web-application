@@ -1,6 +1,7 @@
 {% extends "dashboard_base.html" %}
 
 {% block dashboard_content %}
+
   <main id="main" class="main">
 
     <section class="section">
@@ -14,24 +15,22 @@
               <table class="table table-borderless">
                 <thead>
                   <tr>
+                    <th scope="col">Username</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Position</th>
+                    <th scope="col">Surame</th>
                     <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">dni</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.surname}}</td>
+                    <td>{{user.age}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.dni}}</td>
                   </tr>
                 </tbody>
               </table>

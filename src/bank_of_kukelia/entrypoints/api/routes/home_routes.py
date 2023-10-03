@@ -15,7 +15,7 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
-@router.get('/not_found')
+@router.get("/not_found")
 def not_found_view(request: Request):
     logger.info("returning 404 page")
     return templates.TemplateResponse("404_not_found.html", {"request": request})
@@ -30,14 +30,12 @@ async def about(request: Request):
 async def contact(request: Request):
     return templates.TemplateResponse("contact.html", {"request": request})
 
+
 @router.get("/login")
 async def login_view(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
+
 @router.get("/register")
 async def register_view(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
-
-@router.get('/{route}/x')
-def restricted(route: str, request: Request, current_user= Depends(auth.get_current_user)):
-    return templates.TemplateResponse("restricted.html", {"request": request})

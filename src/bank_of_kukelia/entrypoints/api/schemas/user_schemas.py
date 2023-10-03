@@ -9,3 +9,14 @@ class UserLoginForm(BaseModel):
     dni: int
     age: int
     email: str
+
+class UserRead(BaseModel):
+    name: str
+    surname: str
+    username: str
+    dni: int
+    age: int
+    email: str
+
+    class Config:
+        from_attributes = True

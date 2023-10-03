@@ -5,6 +5,14 @@ function logout() {
     window.location.href = '/';
 }
 
+function request_dashboard() {
+    const apiUrl = 'dashboard';
+
+    // Replace 'YOUR_BEARER_TOKEN' with your actual Bearer token.
+    const bearerToken = localStorage.getItem('access_token');
+    window.location.href = `${apiUrl}?token=${bearerToken}`;
+}
+
 let access_token = localStorage.getItem('access_token');
 let username = localStorage.getItem('username');
 
@@ -22,11 +30,12 @@ if (username === null) {
     user_button = document.createElement('div');
     user_button.innerHTML = `<a href="user"><button type="button" class="btn btn-primary">User</button></a>`;
     dashboard_button = document.createElement('div');
-    dashboard_button.innerHTML = `<a href="dashboard"><button type="button" class="btn btn-primary">Dashboard</button></a>`;
+    dashboard_button.innerHTML = `<button type="button" class="btn btn-primary">Dashboard</button>`;
+    dashboard_button.addEventListener('click', request_dashboard);
     logout_button = document.createElement('div');
     logout_button.innerHTML = `<button type="button" class="btn btn-primary">Log out</button>`;
     logout_button.addEventListener('click', logout);
-    nav_options.appendChild(user_button);
+    // nav_options.appendChild(user_button);
     nav_options.appendChild(dashboard_button);
     nav_options.appendChild(logout_button);
 }

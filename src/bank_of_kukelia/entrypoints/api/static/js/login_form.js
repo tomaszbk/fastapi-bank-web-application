@@ -36,8 +36,6 @@ function submitForm() {
 
                 // Handle the redirect response
                 console.log(data);
-                window.alert(data);
-                window.alert(data.access_token);
                 // store received token in local storage
                 localStorage.setItem('access_token', data.access_token);
                 localStorage.setItem('username', formData["username"]);
