@@ -9,14 +9,14 @@ create table Users (
     age int not null,
     creation_date timestamp not null,
     last_updated timestamp not null,
-    last_login timestamp not null
+    last_login timestamp
 );
 
 create table Bank_Accounts (
     id serial primary key,
-    user_id int not null,
     balance float not null,
     creation_date timestamp not null,
+    user_id int not null UNIQUE,
     foreign key (user_id) references Users(id)
 );
 
