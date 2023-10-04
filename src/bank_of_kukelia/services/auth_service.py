@@ -1,5 +1,5 @@
 from passlib.context import CryptContext
-from jose import JWTError, jwt, ExpiredSignatureError
+from jose import jwt, ExpiredSignatureError
 from datetime import datetime, timedelta
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
@@ -59,7 +59,7 @@ class Auth():
         try:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
         except ExpiredSignatureError as ex:
-            raise Exception('Signature has expired') from ex
+            raise ExpiredSignatureError('Signature has expired') from ex
         username = payload.get("sub")
         user = session.query(User).filter(User.username == username).one_or_none()
         if user is None:

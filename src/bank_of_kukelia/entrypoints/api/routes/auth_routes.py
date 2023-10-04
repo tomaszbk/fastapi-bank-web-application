@@ -25,7 +25,7 @@ credentials_exception = HTTPException(
 
 @router.post("/register")
 async def register(form_data : UserLoginForm,
-                   session = postgres_session_factory.get_session()):
+                   session = Depends(postgres_session_factory.get_session)):
     logger.info('starting user registration')
 
     if user_already_exists(session, form_data.username):
