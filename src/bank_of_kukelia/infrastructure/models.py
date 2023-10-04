@@ -1,11 +1,9 @@
-from sqlalchemy import  Integer, String, MetaData, PrimaryKeyConstraint, UniqueConstraint
+from sqlalchemy import  Integer, String, PrimaryKeyConstraint, UniqueConstraint
 from sqlalchemy import DateTime, Double, ForeignKeyConstraint
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, MappedAsDataclass, relationship
 
 from datetime import datetime
 from typing import List
-
-metadata = MetaData()
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
@@ -30,7 +28,7 @@ class User(Base):
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     creation_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     last_updated: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    last_login: Mapped[datetime] = mapped_column(DateTime, init=False)
+    last_login: Mapped[datetime] = mapped_column(DateTime, init=False, nullable=True)
 
     bank_account: Mapped['BankAccount'] = relationship('BankAccount', uselist=False, back_populates='user', init=False)
 
