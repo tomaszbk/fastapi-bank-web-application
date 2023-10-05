@@ -17,6 +17,7 @@ create table Bank_Accounts (
     balance float not null,
     creation_date timestamp not null,
     user_id int not null UNIQUE,
+    CHECK (balance>=0),
     foreign key (user_id) references Users(id)
 );
 
