@@ -13,7 +13,7 @@ def user_already_exists(session: Session, username: str):
 
 
 def create_user(session: Session, form_data: UserLoginForm):
-    hashed_password = auth.get_hashed_password(form_data.password)
+    hashed_password = auth.hash_password(form_data.password)
     now = datetime.now()
     user = User(
         username=form_data.username,
@@ -30,4 +30,8 @@ def create_user(session: Session, form_data: UserLoginForm):
                                     creation_date=now)
     session.add(user)
     session.commit()
+    return user
+
+def get_by_username(session: Session, username: str):
+    user = session.query(User).filter_by(username = username).one_or_none()
     return user

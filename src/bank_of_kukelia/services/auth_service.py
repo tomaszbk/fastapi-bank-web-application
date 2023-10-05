@@ -20,7 +20,7 @@ class Auth():
         self.ALGORITHM = 'HS256'
         self.ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-    def get_hashed_password(self, password: str) -> str:
+    def hash_password(self, password: str) -> str:
         return self.pwd_context.hash(password)
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:

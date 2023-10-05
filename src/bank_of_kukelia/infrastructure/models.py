@@ -1,4 +1,4 @@
-from sqlalchemy import  Integer, String, PrimaryKeyConstraint, UniqueConstraint
+from sqlalchemy import  CheckConstraint, Integer, String, PrimaryKeyConstraint, UniqueConstraint
 from sqlalchemy import DateTime, Double, ForeignKeyConstraint
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, MappedAsDataclass, relationship
 
@@ -36,6 +36,7 @@ class User(Base):
 class BankAccount(Base):
     __tablename__ = 'bank_accounts'
     __table_args__ = (
+        CheckConstraint('balance >= 0', name='bank_accounts_balance_check'),
         ForeignKeyConstraint(['user_id'], ['users.id'], name='bank_accounts_user_id_fkey'),
         PrimaryKeyConstraint('id', name='bank_accounts_pkey'),
         UniqueConstraint('user_id', name='bank_accounts_user_id_key')
