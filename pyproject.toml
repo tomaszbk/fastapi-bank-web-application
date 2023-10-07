@@ -68,3 +68,13 @@ disable = """
 """
 
 python.autoComplete.extraPaths= ["./src"]
+
+
+[tool.pytest.ini_options]
+python_files ="test*.py"
+testpaths = [
+    "tests"
+]
+source =[
+    "src",
+    "tests"]
