@@ -8,7 +8,6 @@ def test_negative_balance_raises_error(session):
     now = datetime.now()
     account = BankAccount(20000, now)
 
-    # reduce the balance by 10000
     try:
         account.balance -= 100000
         session.add(account)

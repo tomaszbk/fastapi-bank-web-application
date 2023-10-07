@@ -27,9 +27,6 @@ line-length = 100
 target_version = ['py311']
 include = '\.pyi?$'
 
-[tool.pylint]
-src =  ["src"]
-
 [tool.ruff]
 select = [
     "E",  # pycodestyle errors
@@ -38,19 +35,21 @@ select = [
     "C",  # flake8-comprehensions
     "B",  # flake8-bugbear
 ]
-# show-fixes = true
-# fixable = ["A", "B", "C", "D", "E", "F"]
-# unfixable = []
+
 ignore = [
     "E501",  # line too long, handled by black
     "B008",  # do not perform function calls in argument defaults
     # "C901",  # complexity
 ]
+
 src = ["src/bank_of_kukelia"]
 target-version = "py311"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^2.17.5"
+
+[tool.mypy]
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core"]
@@ -77,4 +76,5 @@ testpaths = [
 ]
 source =[
     "src",
-    "tests"]
+    "tests"
+    ]

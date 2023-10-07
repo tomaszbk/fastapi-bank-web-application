@@ -1,7 +1,5 @@
-from infrastructure.models import User, BankAccount, Transaction
-from services.auth_service import auth
+from infrastructure.models import User, Transaction
 
-from domain.bank_account_logic import DEFAULT_FIRST_ACCOUNT_BALANCE
 from sqlalchemy.orm import Session
 
 from datetime import datetime
