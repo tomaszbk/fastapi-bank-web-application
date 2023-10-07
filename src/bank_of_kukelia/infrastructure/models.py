@@ -48,8 +48,9 @@ class BankAccount(Base):
     creation_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
     user: Mapped['User'] = relationship('User', back_populates='bank_account', init=False)
-    origin_transactions: Mapped[List['Transaction']] = relationship('Transaction', uselist=True, foreign_keys='[Transaction.destination_account_id]', back_populates='destination_account', init=False)
-    destiny_transactions_: Mapped[List['Transaction']] = relationship('Transaction', uselist=True, foreign_keys='[Transaction.origin_account_id]', back_populates='origin_account', init=False)
+    origin_transactions: Mapped[List['Transaction']] = relationship('Transaction', uselist=True, foreign_keys='[Transaction.origin_account_id]', back_populates='origin_account', init=False)
+    destiny_transactions: Mapped[List['Transaction']] = relationship('Transaction', uselist=True, foreign_keys='[Transaction.destination_account_id]', back_populates='destination_account', init=False)
+
 
 
 class Transaction(Base):
@@ -67,4 +68,4 @@ class Transaction(Base):
     transaction_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
     origin_account: Mapped['BankAccount'] = relationship('BankAccount', foreign_keys=[origin_account_id], back_populates='origin_transactions', init=False)
-    destination_account: Mapped['BankAccount'] = relationship('BankAccount', foreign_keys=[destination_account_id], back_populates='destiny_transactions_', init=False)
+    destination_account: Mapped['BankAccount'] = relationship('BankAccount', foreign_keys=[destination_account_id], back_populates='destiny_transactions', init=False)
