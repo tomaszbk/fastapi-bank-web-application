@@ -10,7 +10,7 @@ $100000.
 Se requiere que los clientes tengan la capacidad de:
 - Registrarse como nuevos clientes ✅
 - Poseer una caja de ahorro, de alta automática durante el registro, con un saldo inicial de 
-$100000.
+$100000. ✅
 - Generar códigos de autorización de débitos para utilizar en plataformas externas.
 - Consultar el saldo y los movimientos de la cuenta.
 La plataforma deberá tener la capacidad de recibir solicitudes de débitos desde distintos 
@@ -32,3 +32,6 @@ $ poetry install
 
 sqlacodegen_v2 postgresql:///some_local_db
 sqlacodegen_v2 --generator tables mysql+pymysql://user:password@localhost/dbname
+--use_inflect to convert table names to singular and PascalCase
+
+poetry export --without-hashes --format=requirements.txt > requirements.txt
