@@ -19,8 +19,9 @@ def create_transaction(session: Session, origin_user: User, amount: float, desti
     try:
         session.flush()
     except IntegrityError as e:
+        session.rollback()
         raise Exception( f"User doesn't have enough money: {e}") from e
-
+    destiny_user.bank_account.balance += amount
     transaction.origin_account = origin_user.bank_account
     transaction.destination_account = destiny_user.bank_account
     session.add(transaction)

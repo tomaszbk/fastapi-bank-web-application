@@ -1,4 +1,4 @@
-from src.bank_of_kukelia.infrastructure.models import BankAccount
+from infrastructure.models import BankAccount
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 
@@ -14,4 +14,5 @@ def test_negative_balance_raises_error(session):
         session.add(account)
         session.flush()
     except IntegrityError as e:
+        session.rollback()
         assert IntegrityError, f"Check failed: {e}"

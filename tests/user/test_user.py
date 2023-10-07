@@ -1,5 +1,3 @@
-import pytest
-
 from services.user_service import user_already_exists, create_user
 from entrypoints.api.schemas.user_schemas import UserLoginForm
 

@@ -1,5 +1,5 @@
-from src.bank_of_kukelia.infrastructure.models import User
-from bank_of_kukelia.services.auth_service import auth
+from infrastructure.models import User
+from services.auth_service import auth
 import random
 from datetime import datetime
 
