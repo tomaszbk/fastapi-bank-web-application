@@ -1,36 +1,47 @@
-{% block additional_head %}
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='assets/FMI.jpg') }}" />
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Bank of Tomorrow</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='assets/FMI.jpg') }}" />
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+        <!-- Google Fonts -->
+        <link href="https://fonts.gstatic.com" rel="preconnect">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-    <!-- Vendor CSS Files -->
-    <link href="{{ url_for('static', path='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', path='assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+        <!-- Vendor CSS Files -->
+        <link href="{{ url_for('static', path='css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', path='assets/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', path='css/simple-datatables.css') }}" rel="stylesheet">
 
-    <!-- Template Main CSS File -->
-    <link href="{{ url_for('static', path='css/dashboard_styles.css') }}" rel="stylesheet">
-{% endblock %}
+        <!-- Template Main CSS File -->
+        <link href="{{ url_for('static', path='css/dashboard_styles.css') }}" rel="stylesheet">
+        {% block additional_head %}
+        {% endblock %}
+    </head>
 
-{% block content %}
+    <body>
+    {% block content %}
+        {% include 'sidebar.html' %}
 
-    {% include 'sidebar.html' %}
+        {% block dashboard_content %}{% endblock %}
 
-    {% block dashboard_content %}{% endblock %}
+    {% endblock %}
 
-{% endblock %}
+    {% block additional_script %}
+        <!-- Vendor JS Files -->
+        <script src="{{ url_for('static', path='js/bootstrap.bundle.min.js') }}"></script>
 
-{% block additional_script %}
-    <!-- Vendor JS Files -->
-    <script src="{{ url_for('static', path='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ url_for('static', path='js/simple-datatables.js') }}"></script>
 
-    <script src="{{ url_for('static', path='assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+        <!-- Template Main JS File -->
+        <script src="{{ url_for('static', path='js/main.js') }}"></script>
+        <script src="{{ url_for('static', path='js/sidebar.js') }}"></script>
+    {% endblock %}
 
-    <!-- Template Main JS File -->
-    <script src="{{ url_for('static', path='js/main.js') }}"></script>
-    <script src="{{ url_for('static', path='js/sidebar.js') }}"></script>
-{% endblock %}
-
+    </body>
+</html>
