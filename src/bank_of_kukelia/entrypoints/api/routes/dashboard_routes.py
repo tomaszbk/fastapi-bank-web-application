@@ -9,6 +9,7 @@ from services.transaction_service import create_transaction
 from services.user_service import get_by_username as get_user_by_username
 
 from infrastructure.engine import postgres_session_factory
+from infrastructure.models import User
 
 from decorators import auth_exception_handler
 
@@ -19,10 +20,16 @@ router = APIRouter()
 
 @router.get("")
 @auth_exception_handler
-def dashboard_view(request: Request, user: UserRead = Depends(auth.get_current_user_from_url)):
+def dashboard_view(request: Request, user: User = Depends(auth.get_current_user_from_url)):
     """Template includes chart of user's balance over time,
     and a table of user's recent transactions."""
-    return templates.TemplateResponse("dashboard.html", {"request": request, "user": user})
+    transactions = user.bank_account.origin_transactions + user.bank_account.destiny_transactions
+    transactions.sort(key=lambda transaction: transaction.transaction_date, reverse=True)
+    transactions_len = len(transactions)
+    return templates.TemplateResponse("dashboard.html", {"request": request,
+                                                        "user": user,
+                                                        "transactions": transactions,
+                                                        "transactions_len": transactions_len})
 
 
 @router.get("/profile")

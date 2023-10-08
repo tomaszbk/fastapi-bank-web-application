@@ -20,7 +20,8 @@
               <div class="card">
 
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title">My account</h5>
+                  <h6>Balance: {{ user.bank_account.balance }}</h6>
                 </div>
 
               </div>
@@ -38,27 +39,38 @@
                       <thead>
                         <tr>
                           <th scope="col">#</th>
+                          <th scope="col">Sender</th>
                           <th scope="col">Recipient</th>
                           <th scope="col">Amount</th>
                           <th scope="col">Date</th>
-                          <th scope="col">Status</th>
+                          <th scope="col">Direction</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <th scope="row">1</th>
                           <td>Brandon Jacob</td>
+                          <td>Brandon Jacobo</td>
                           <td>Designer</td>
                           <td>2016-05-25</td>
-                          <td><span class="badge bg-success">Approved</span></td>
+                          <td><span class="badge bg-warning" style="color: black;">Approved</span></td>
                         </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Bridie Kessler</td>
-                          <td>Developer</td>
-                          <td>2014-12-05</td>
-                          <td><span class="badge bg-success">Approved</span></td>
-                        </tr>
+                        {% if transactions_len > 0 %}
+                          {% for transaction, i in transactions, range(transactions_len) %}
+                          <tr>
+                            <th scope="row">{{i}}</th>
+                            <td>{{transaction.origin_account}}</td>
+                            <td>{{transaction.destination_account}}</td>
+                            <td>{{transaction.amount}}</td>
+                            <td>{{transaction.date}}</td>
+                            {% if transaction.origin_account.id == user.origin_account.id %}
+                              <td><span class="badge bg-success">Sent</span></td>
+                            {% else %}
+                              <td><span class="badge bg-warning" style="color: black;">Received</span></td>
+                            {% endif %}
+                          </tr>
+                          {% endfor %}
+                        {% endif %}
                       </tbody>
                     </table>
                     <!-- End Table with stripped rows -->
