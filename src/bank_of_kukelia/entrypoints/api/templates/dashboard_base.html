@@ -34,7 +34,7 @@
 
     {% endblock %}
 
-    {% block additional_script %}
+
         <!-- Vendor JS Files -->
 
         <script src="{{ url_for('static', path='js/simple-datatables.js') }}"></script>
@@ -45,7 +45,7 @@
         <!-- Template Main JS File -->
         <script src="{{ url_for('static', path='js/main.js') }}"></script>
         <script src="{{ url_for('static', path='js/sidebar.js') }}"></script>
-
+    {% block additional_script %}
     {% endblock %}
 
     </body>
