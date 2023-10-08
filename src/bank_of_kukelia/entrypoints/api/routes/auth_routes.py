@@ -61,3 +61,15 @@ async def login_for_access_token(
                     data={"sub": user.username}, expires_delta=access_token_expires
                     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+# Depends(oauth2_scheme): look in the request for the Authorization header,
+# check if value is Bearer plus some token, and returns the token as str
+# Otherwise, 401 status code error (UNAUTHORIZED)
+async def get_current_user_from_header(token: Annotated[str, Depends(auth.oauth2_scheme)],
+                                session = Depends(postgres_session_factory.get_session)):
+    return await auth.get_current_active_user(session, token)
+
+async def get_current_user_from_url(token: str,
+                             session = Depends(postgres_session_factory.get_session)):
+    return await auth.get_current_active_user(session, token)

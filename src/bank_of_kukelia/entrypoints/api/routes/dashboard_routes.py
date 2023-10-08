@@ -2,7 +2,9 @@ from fastapi import APIRouter, Request, HTTPException, status, Depends
 from fastapi.templating import Jinja2Templates
 from loguru import logger
 
+from entrypoints.api.routes.auth_routes import get_current_user_from_header, get_current_user_from_url
 from entrypoints.api.schemas.user_schemas import UserRead
+from entrypoints.api.schemas.transaction_schemas import TransactionCreate
 
 from services.auth_service import auth
 from services.transaction_service import create_transaction
@@ -17,38 +19,40 @@ router = APIRouter()
 
 
 @router.get("")
-async def dashboard_view(request: Request, user: User = Depends(auth.get_current_user_from_url)):
+async def dashboard_view(request: Request, user: User = Depends(get_current_user_from_url)):
     """Template includes chart of user's balance over time,
     and a table of user's recent transactions."""
     transactions = user.bank_account.origin_transactions + user.bank_account.destiny_transactions
     transactions.sort(key=lambda transaction: transaction.transaction_date, reverse=True)
-    transactions_len = len(transactions)
+
     return templates.TemplateResponse("dashboard.html", {"request": request,
                                                         "user": user,
-                                                        "transactions": transactions,
-                                                        "transactions_len": transactions_len})
+                                                        "transactions": transactions
+                                                      })
 
 
 @router.get("/profile")
-def profile_view(request: Request, user: UserRead = Depends(auth.get_current_user_from_url)):
+async def profile_view(request: Request, user: UserRead = Depends(get_current_user_from_url)):
     """Template shows User data."""
     return templates.TemplateResponse("profile.html", {"request": request, "user": user})
 
 
 @router.get("/transaction")
-def transaction_view(request: Request, user: UserRead = Depends(auth.get_current_user_from_url)):
+async def transaction_view(request: Request, user: UserRead = Depends(get_current_user_from_url)):
     """Template allows to create a new transaction."""
     return templates.TemplateResponse("transaction.html", {"request": request, "user": user})
 
 
 @router.post("/transaction")
-def transaction(request: Request, amount: float, destiny_username: str,
-                 user = Depends(auth.get_current_user_from_header),
-                 session = Depends(postgres_session_factory.get_session)):
+async def transaction(transaction: TransactionCreate,
+                 session = Depends(postgres_session_factory.get_session),
+                 user = Depends(get_current_user_from_header),
+                 ):
     """Creates a new transaction."""
-    destiny_user = get_user_by_username(session, destiny_username)
-    if destiny_username is None:
+    destiny_user = get_user_by_username(session, transaction.destiny_username)
+    if destiny_user is None:
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                 detail="No user found with provided username"
                 )
-    create_transaction(session, user, amount, destiny_user) #type: ignore
+    create_transaction(session, user, transaction.amount, destiny_user) #type: ignore
+    return {"message": "Transaction created successfully"}

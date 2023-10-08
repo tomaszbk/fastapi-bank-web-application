@@ -12,7 +12,7 @@ Se requiere que los clientes tengan la capacidad de:
 - Poseer una caja de ahorro, de alta automática durante el registro, con un saldo inicial de 
 $100000. ✅
 - Generar códigos de autorización de débitos para utilizar en plataformas externas.
-- Consultar el saldo y los movimientos de la cuenta.
+- Consultar el saldo y los movimientos de la cuenta. ✅
 La plataforma deberá tener la capacidad de recibir solicitudes de débitos desde distintos 
 sistemas de terceros, utilizando un código de autorización, previamente generado.
 Ante la solicitud de un débito, el sistema deberá recibir y validar un "token" generado 
@@ -35,3 +35,7 @@ sqlacodegen_v2 --generator tables mysql+pymysql://user:password@localhost/dbname
 --use_inflect to convert table names to singular and PascalCase
 
 poetry export --without-hashes --format=requirements.txt > requirements.txt
+
+### Alembic
+
+alembic revision --autogenerate -m "Added account table"

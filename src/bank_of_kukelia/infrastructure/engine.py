@@ -1,5 +1,6 @@
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm.session import sessionmaker
+from loguru import logger
 
 from config import get_postgres_uri
 
@@ -12,7 +13,13 @@ class PostgresSessionFactory():
 
 
     def get_session(self):
-        return self.Session()
+        session = self.Session()
+        try:
+            logger.info('session created')
+            yield session
+        finally:
+            logger.info('session closed')
+            session.close()
 
 
 postgres_session_factory = PostgresSessionFactory()
