@@ -19,14 +19,14 @@
               <form class="row g-3">
                 <div class="col-md-6">
                   <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingEmail" placeholder="Your Email">
+                    <input type="text" class="form-control" id="floatingEmail" placeholder="Recipient's Username" name="destiny_username">
                     <label for="floatingEmail">Recipient's Username</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Amount</label>
+                    <input type="number" class="form-control" placeholder="Amount" name="amount">
+                    <label for="Amount">Amount</label>
                   </div>
                 </div>
                 <div class="col-12">
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="text-center">
-                  <button id="create-operation-button" type="submit" class="btn btn-primary">Submit</button>
+                  <button id="create-operation-button" class="btn btn-primary">Submit</button>
                   <a href="#"><button type="reset" class="btn btn-secondary">Reset</button></a>
                 </div>
               </form><!-- End floating Labels Form -->
@@ -51,4 +51,8 @@
 
   </main><!-- End #main -->
 
+{% endblock %}
+
+{% block additional_script %}
+<script src="{{ url_for('static', path='js/transaction.js') }}"></script>
 {% endblock %}
