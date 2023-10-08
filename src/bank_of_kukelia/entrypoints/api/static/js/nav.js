@@ -1,10 +1,3 @@
-
-function logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('username');
-    window.location.href = '/';
-}
-
 function request_dashboard() {
     const apiUrl = 'dashboard';
 
@@ -33,8 +26,7 @@ if (username === null) {
     dashboard_button.innerHTML = `<button type="button" class="btn btn-primary">Dashboard</button>`;
     dashboard_button.addEventListener('click', request_dashboard);
     logout_button = document.createElement('div');
-    logout_button.innerHTML = `<button type="button" class="btn btn-primary">Log out</button>`;
-    logout_button.addEventListener('click', logout);
+    logout_button.innerHTML = `<a href="/logout"> <button type="button" class="btn btn-primary">Log out</button></a>`;
     // nav_options.appendChild(user_button);
     nav_options.appendChild(dashboard_button);
     nav_options.appendChild(logout_button);

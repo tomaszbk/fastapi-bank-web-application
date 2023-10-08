@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.requests import Request
 from loguru import logger
 from jinja2 import TemplateNotFound
+from jose import ExpiredSignatureError
 
 from entrypoints.api.routes.home_routes import router as home_router
 from entrypoints.api.routes.auth_routes import router as security_router
@@ -20,6 +21,13 @@ def template_not_found_exception(request: Request, exc: Exception):
         status_code=404,
         content={"message": "No such template"},
     )
+
+
+@app.exception_handler(ExpiredSignatureError)
+def expired_signature_error(request: Request, exc: Exception):
+    logger.warning(f'session expired: {exc}')
+    return RedirectResponse('/logout')
+
 
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exc: Exception):

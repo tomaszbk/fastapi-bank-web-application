@@ -56,10 +56,10 @@ class Auth():
         return await self.get_current_active_user(token)
 
     async def get_current_active_user(self, token: str, session = postgres_session_factory.get_session()):
-        try:
-            payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
-        except ExpiredSignatureError as ex:
-            raise ExpiredSignatureError('Signature has expired') from ex
+    # try:
+        payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
+    # except ExpiredSignatureError as ex:
+    #     raise ExpiredSignatureError('Signature has expired') from ex
         username = payload.get("sub")
         user = session.query(User).filter(User.username == username).one_or_none()
         if user is None:

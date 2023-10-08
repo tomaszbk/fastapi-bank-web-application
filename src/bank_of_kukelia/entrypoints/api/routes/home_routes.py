@@ -39,3 +39,8 @@ async def login_view(request: Request):
 @router.get("/register")
 async def register_view(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
+
+
+@router.get("/logout")
+async def logout_view(request: Request):
+    return templates.TemplateResponse("logout.html", {"request": request})
