@@ -1,23 +1,19 @@
 from passlib.context import CryptContext
 from jose import jwt
 from datetime import datetime, timedelta
-from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
-from typing import Annotated
 from sqlalchemy.orm import Session
 
 from infrastructure.models import User
-from infrastructure.engine import postgres_session_factory
 
 
-class Auth():
-
+class Auth:
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
     def __init__(self) -> None:
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        self.SECRET_KEY = 'e64b1149d445998de645136b902ebfc5e84411f58cfa1e1e0859258b514e4910'
-        self.ALGORITHM = 'HS256'
+        self.SECRET_KEY = "e64b1149d445998de645136b902ebfc5e84411f58cfa1e1e0859258b514e4910"
+        self.ALGORITHM = "HS256"
         self.ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
     def hash_password(self, password: str) -> str:
@@ -45,15 +41,13 @@ class Auth():
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
 
-
     async def get_current_active_user(self, session: Session, token: str) -> User:
-
         payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
 
         username = payload.get("sub")
         user = session.query(User).filter(User.username == username).one_or_none()
         if user is None:
-            raise Exception('User not found')
+            raise Exception("User not found")
         return user
 
 

@@ -1,4 +1,4 @@
-from sqlalchemy import  CheckConstraint, Integer, String, PrimaryKeyConstraint, UniqueConstraint
+from sqlalchemy import CheckConstraint, Integer, String, PrimaryKeyConstraint, UniqueConstraint
 from sqlalchemy import DateTime, Double, ForeignKeyConstraint
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, MappedAsDataclass, relationship
 
@@ -9,13 +9,15 @@ from typing import List
 class Base(MappedAsDataclass, DeclarativeBase):
     """subclasses will be converted to dataclasses"""
 
-#back populates is how the table is represented in the relationed table
+
+# back populates is how the table is represented in the relationed table
+
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     __table_args__ = (
-        PrimaryKeyConstraint('id', name='users_pkey'),
-        UniqueConstraint('username', name='users_username_key')
+        PrimaryKeyConstraint("id", name="users_pkey"),
+        UniqueConstraint("username", name="users_username_key"),
     )
 
     id: Mapped[int] = mapped_column(Integer, init=False)
@@ -30,16 +32,18 @@ class User(Base):
     last_updated: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     last_login: Mapped[datetime] = mapped_column(DateTime, init=False, nullable=True)
 
-    bank_account: Mapped['BankAccount'] = relationship('BankAccount', uselist=False, back_populates='user', init=False)
+    bank_account: Mapped["BankAccount"] = relationship(
+        "BankAccount", uselist=False, back_populates="user", init=False
+    )
 
 
 class BankAccount(Base):
-    __tablename__ = 'bank_accounts'
+    __tablename__ = "bank_accounts"
     __table_args__ = (
-        CheckConstraint('balance >= 0', name='bank_accounts_balance_check'),
-        ForeignKeyConstraint(['user_id'], ['users.id'], name='bank_accounts_user_id_fkey'),
-        PrimaryKeyConstraint('id', name='bank_accounts_pkey'),
-        UniqueConstraint('user_id', name='bank_accounts_user_id_key')
+        CheckConstraint("balance >= 0", name="bank_accounts_balance_check"),
+        ForeignKeyConstraint(["user_id"], ["users.id"], name="bank_accounts_user_id_fkey"),
+        PrimaryKeyConstraint("id", name="bank_accounts_pkey"),
+        UniqueConstraint("user_id", name="bank_accounts_user_id_key"),
     )
 
     id: Mapped[int] = mapped_column(Integer, init=False)
@@ -47,18 +51,35 @@ class BankAccount(Base):
     balance: Mapped[float] = mapped_column(Double(53), nullable=False)
     creation_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
-    user: Mapped['User'] = relationship('User', back_populates='bank_account', init=False)
-    origin_transactions: Mapped[List['Transaction']] = relationship('Transaction', uselist=True, foreign_keys='[Transaction.origin_account_id]', back_populates='origin_account', init=False)
-    destiny_transactions: Mapped[List['Transaction']] = relationship('Transaction', uselist=True, foreign_keys='[Transaction.destination_account_id]', back_populates='destination_account', init=False)
-
+    user: Mapped["User"] = relationship("User", back_populates="bank_account", init=False)
+    origin_transactions: Mapped[List["Transaction"]] = relationship(
+        "Transaction",
+        uselist=True,
+        foreign_keys="[Transaction.origin_account_id]",
+        back_populates="origin_account",
+        init=False,
+    )
+    destiny_transactions: Mapped[List["Transaction"]] = relationship(
+        "Transaction",
+        uselist=True,
+        foreign_keys="[Transaction.destination_account_id]",
+        back_populates="destination_account",
+        init=False,
+    )
 
 
 class Transaction(Base):
-    __tablename__ = 'transactions'
+    __tablename__ = "transactions"
     __table_args__ = (
-        ForeignKeyConstraint(['destination_account_id'], ['bank_accounts.id'], name='transactions_destination_account_id_fkey'),
-        ForeignKeyConstraint(['origin_account_id'], ['bank_accounts.id'], name='transactions_origin_account_id_fkey'),
-        PrimaryKeyConstraint('id', name='transactions_pkey')
+        ForeignKeyConstraint(
+            ["destination_account_id"],
+            ["bank_accounts.id"],
+            name="transactions_destination_account_id_fkey",
+        ),
+        ForeignKeyConstraint(
+            ["origin_account_id"], ["bank_accounts.id"], name="transactions_origin_account_id_fkey"
+        ),
+        PrimaryKeyConstraint("id", name="transactions_pkey"),
     )
 
     id: Mapped[int] = mapped_column(Integer, init=False)
@@ -67,5 +88,15 @@ class Transaction(Base):
     amount: Mapped[float] = mapped_column(Double(53), nullable=False)
     transaction_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
-    origin_account: Mapped['BankAccount'] = relationship('BankAccount', foreign_keys=[origin_account_id], back_populates='origin_transactions', init=False)
-    destination_account: Mapped['BankAccount'] = relationship('BankAccount', foreign_keys=[destination_account_id], back_populates='destiny_transactions', init=False)
+    origin_account: Mapped["BankAccount"] = relationship(
+        "BankAccount",
+        foreign_keys=[origin_account_id],
+        back_populates="origin_transactions",
+        init=False,
+    )
+    destination_account: Mapped["BankAccount"] = relationship(
+        "BankAccount",
+        foreign_keys=[destination_account_id],
+        back_populates="destiny_transactions",
+        init=False,
+    )

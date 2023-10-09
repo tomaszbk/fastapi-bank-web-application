@@ -5,20 +5,18 @@ from loguru import logger
 from config import get_postgres_uri
 
 
-class PostgresSessionFactory():
-
+class PostgresSessionFactory:
     def __init__(self) -> None:
         self.engine = create_engine(get_postgres_uri())
         self.Session = sessionmaker(bind=self.engine)
 
-
     def get_session(self):
         session = self.Session()
         try:
-            logger.info('session created')
+            logger.info("session created")
             yield session
         finally:
-            logger.info('session closed')
+            logger.info("session closed")
             session.close()
 
 

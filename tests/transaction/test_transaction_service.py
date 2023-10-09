@@ -5,6 +5,7 @@ from datetime import datetime
 
 def test_create_transaction(session):
     from tests.factories import user_factory
+
     user1 = user_factory()
     user1.bank_account = BankAccount(balance=8000, creation_date=datetime.now())
     user2 = user_factory()

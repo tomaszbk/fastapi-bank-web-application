@@ -14,6 +14,7 @@ from entrypoints.api.routes.dashboard_routes import router as dashboard_router
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="entrypoints/api/static"), name="static")
 
+
 @app.exception_handler(TemplateNotFound)
 def template_not_found_exception(request: Request, exc: Exception):
     logger.error(f"template not found in {request.__dict__['scope']['route']}: {exc}")
@@ -25,26 +26,27 @@ def template_not_found_exception(request: Request, exc: Exception):
 
 @app.exception_handler(ExpiredSignatureError)
 def expired_signature_error(request: Request, exc: Exception):
-    logger.warning(f'session expired: {exc}')
-    return RedirectResponse('/logout')
+    logger.warning(f"session expired: {exc}")
+    return RedirectResponse("/logout")
 
 
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exc: Exception):
-    logger.error(f'{exc}')
+    logger.error(f"{exc}")
     return JSONResponse(
         status_code=500,
         content={"message": "Internal Server Error"},
     )
 
+
 @app.exception_handler(404)
 async def not_found_exception_handler(request: Request, exc: HTTPException):
-    return RedirectResponse('/not_found')
+    return RedirectResponse("/not_found")
 
 
 app.include_router(home_router)
-app.include_router(security_router, prefix='/auth')
-app.include_router(dashboard_router, prefix='/dashboard')
+app.include_router(security_router, prefix="/auth")
+app.include_router(dashboard_router, prefix="/dashboard")
 
 # @app.middleware("http")
 # async def redirect_on_not_found(request: Request, call_next):

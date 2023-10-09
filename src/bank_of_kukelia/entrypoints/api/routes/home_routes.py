@@ -1,8 +1,6 @@
-from fastapi import APIRouter, Request, HTTPException, status, Depends
+from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 from loguru import logger
-
-from services.auth_service import auth
 
 
 templates = Jinja2Templates(directory="entrypoints/api/templates")

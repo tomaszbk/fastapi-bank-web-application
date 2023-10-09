@@ -8,7 +8,7 @@ from src.bank_of_kukelia.infrastructure.models import Base
 @pytest.fixture(scope="session")
 def session():
     logger.info("Creating test database")
-    engine = create_engine('sqlite:///tests/test.db')
+    engine = create_engine("sqlite:///tests/test.db")
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()

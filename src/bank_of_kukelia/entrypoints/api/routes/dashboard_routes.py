@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Request, HTTPException, status, Depends
 from fastapi.templating import Jinja2Templates
-from loguru import logger
 
-from entrypoints.api.routes.auth_routes import get_current_user_from_header, get_current_user_from_url
+from entrypoints.api.routes.auth_routes import (
+    get_current_user_from_header,
+    get_current_user_from_url,
+)
 from entrypoints.api.schemas.user_schemas import UserRead
 from entrypoints.api.schemas.transaction_schemas import TransactionCreate
 
-from services.auth_service import auth
 from services.transaction_service import create_transaction
 from services.user_service import get_by_username as get_user_by_username
 
@@ -25,10 +26,9 @@ async def dashboard_view(request: Request, user: User = Depends(get_current_user
     transactions = user.bank_account.origin_transactions + user.bank_account.destiny_transactions
     transactions.sort(key=lambda transaction: transaction.transaction_date, reverse=True)
 
-    return templates.TemplateResponse("dashboard.html", {"request": request,
-                                                        "user": user,
-                                                        "transactions": transactions
-                                                      })
+    return templates.TemplateResponse(
+        "dashboard.html", {"request": request, "user": user, "transactions": transactions}
+    )
 
 
 @router.get("/profile")
@@ -44,15 +44,16 @@ async def transaction_view(request: Request, user: UserRead = Depends(get_curren
 
 
 @router.post("/transaction")
-async def transaction(transaction: TransactionCreate,
-                 session = Depends(postgres_session_factory.get_session),
-                 user = Depends(get_current_user_from_header),
-                 ):
+async def transaction(
+    transaction: TransactionCreate,
+    session=Depends(postgres_session_factory.get_session),
+    user=Depends(get_current_user_from_header),
+):
     """Creates a new transaction."""
     destiny_user = get_user_by_username(session, transaction.destiny_username)
     if destiny_user is None:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                detail="No user found with provided username"
-                )
-    create_transaction(session, user, transaction.amount, destiny_user) #type: ignore
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="No user found with provided username"
+        )
+    create_transaction(session, user, transaction.amount, destiny_user)
     return {"message": "Transaction created successfully"}
