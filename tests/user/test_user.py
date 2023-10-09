@@ -1,9 +1,9 @@
 from services.user_service import user_already_exists, create_user
-from entrypoints.api.schemas.user_schemas import UserLoginForm
+from entrypoints.api.schemas.user_schemas import UserCreate
 
 
 def test_user_registration(session):
-    form_data = UserLoginForm(
+    form_data = UserCreate(
         username="test_username",
         password="test",
         name="test",
