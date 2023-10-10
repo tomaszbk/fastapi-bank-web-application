@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, ConfigDict
 
 
 class UserCreate(BaseModel):
@@ -30,12 +30,11 @@ class UserCreate(BaseModel):
 
 
 class UserRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     name: str
     surname: str
     username: str
     dni: int
     age: int
     email: str
-
-    class Config:
-        from_attributes = True
