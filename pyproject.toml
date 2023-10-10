@@ -79,6 +79,9 @@ testpaths = [
     "tests"
 ]
 pythonpath = [
-    "src",
+    "src/bank_of_kukelia",
     "tests"
     ]
+[tool.coverage.run]
+
+source = ['src']
