@@ -36,7 +36,8 @@ repos:
     hooks:
       - id: tests
         name: run tests
-        entry: pytest -v
+        pass_filenames: false
+        entry: pytest -v tests
         language: system
         types: [python]
         stages: [push]

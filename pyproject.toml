@@ -84,4 +84,4 @@ pythonpath = [
     ]
 [tool.coverage.run]
 
-source = ['src']
+source = ['src', 'tests']
