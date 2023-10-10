@@ -1,6 +1,6 @@
 def test_user_registration(session):
-    from bank_of_kukelia.services.user_service import user_already_exists, create_user
-    from bank_of_kukelia.entrypoints.api.schemas.user_schemas import UserCreate
+    from services.user_service import user_already_exists, create_user
+    from entrypoints.api.schemas.user_schemas import UserCreate
 
     form_data = UserCreate(
         username="test_username",

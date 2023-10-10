@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError
 
 
 def test_negative_balance_raises_error(session):
-    from bank_of_kukelia.infrastructure.models import BankAccount
+    from infrastructure.models import BankAccount
 
     # create a bank account with initial balance of 20000
     now = datetime.now()

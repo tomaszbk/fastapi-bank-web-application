@@ -78,7 +78,7 @@ python_files ="test*.py"
 testpaths = [
     "tests"
 ]
-source =[
+pythonpath = [
     "src",
     "tests"
     ]

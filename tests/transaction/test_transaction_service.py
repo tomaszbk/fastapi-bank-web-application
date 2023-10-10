@@ -3,8 +3,8 @@ from datetime import datetime
 
 def test_create_transaction(session):
     from tests.factories import user_factory
-    from bank_of_kukelia.services.transaction_service import create_transaction
-    from bank_of_kukelia.infrastructure.models import BankAccount
+    from services.transaction_service import create_transaction
+    from infrastructure.models import BankAccount
 
     user1 = user_factory()
     user1.bank_account = BankAccount(balance=8000, creation_date=datetime.now())
