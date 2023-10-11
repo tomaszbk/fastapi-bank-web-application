@@ -13,19 +13,6 @@
             "jinja": true,
             "justMyCode": true,
             "cwd": "${workspaceFolder}/src/bank_of_kukelia"
-        },
-        {
-            "name": "Python: Remote Attach",
-            "type": "python",
-            "request": "attach",
-            "port": 5678,
-            "host": "localhost",
-            "pathMappings": [
-                {
-                    "localRoot": "${workspaceFolder}/src/bank_of_kukelia",
-                    "remoteRoot": "/app"
-                }
-            ]
         }
     ]
 }

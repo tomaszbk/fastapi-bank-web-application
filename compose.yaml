@@ -10,10 +10,12 @@ services:
       - ./src/bank_of_kukelia:/app
     command: ["sh", "-c", "python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
     environment:
-      - APP_MESSAGE=Hello debugger
       - POSTGRES_URI=postgresql://postgres:postgres@desarrollo-postgres-1:5432/postgres
     ports:
       - 8000:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: postgres
@@ -25,7 +27,11 @@ services:
       - ./db_config/:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
-    #command: COPY ddl.sql /docker-entrypoint-initdb.d/ddl.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --dbname $$POSTGRES_DB --username $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   pgadmin:
     image: dpage/pgadmin4
