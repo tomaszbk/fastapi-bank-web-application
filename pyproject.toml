@@ -42,7 +42,6 @@ ignore = [
     # "C901",  # complexity
 ]
 
-src = ["src/bank_of_kukelia"]
 target-version = "py311"
 
 [tool.poetry.group.dev.dependencies]
@@ -51,6 +50,7 @@ ruff = "^0.0.292"
 mypy = "^1.5.1"
 black = "^23.9.1"
 pre-commit = "^3.4.0"
+ipykernel = "^6.25.2"
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -82,6 +82,3 @@ pythonpath = [
     "src/bank_of_kukelia",
     "tests"
     ]
-[tool.coverage.run]
-
-source = ['src', 'tests']

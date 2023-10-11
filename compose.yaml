@@ -2,12 +2,12 @@ version: '3.4'
 services:
 
   fastapi:
-    image: fastapi-vscode
+    image: fastapi
     build:
       context: .
       dockerfile: ./Dockerfile
-    volumes:
-      - ./src/bank_of_kukelia:/app
+    # volumes:
+    #   - ./src/bank_of_kukelia:/app
     command: ["sh", "-c", "python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
     environment:
       - POSTGRES_URI=postgresql://postgres:postgres@desarrollo-postgres-1:5432/postgres

@@ -27,7 +27,7 @@ windows:
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 #### Install python dependencies in a venv with poetry:
 $ poetry install
-
+$ poetry add --group dev <package>
 ### Sqlacodegen
 
 sqlacodegen_v2 postgresql:///some_local_db
@@ -36,6 +36,5 @@ sqlacodegen_v2 --generator tables mysql+pymysql://user:password@localhost/dbname
 
 poetry export --without-hashes --format=requirements.txt > requirements.txt
 
-### Alembic
 
-alembic revision --autogenerate -m "Added account table"
+poetry run python -m ipykernel install

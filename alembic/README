@@ -1,1 +1,8 @@
 Generic single-database configuration.
+
+### Alembic
+
+alembic init alembic (first time only)
+alembic revision --autogenerate -m "Added account table"
+alembic upgrade head
+alembis stamp head
