@@ -1,7 +1,9 @@
-from infrastructure.models import User
-from services.auth_service import auth
 import random
 from datetime import datetime
+
+from infrastructure.models import User, BankAccount
+from services.auth_service import auth
+from services.transaction_service import create_transaction
 
 
 def generate_numbers():
@@ -28,3 +30,15 @@ def user_factory() -> User:
         creation_date=datetime.now(),
         last_updated=datetime.now(),
     )
+
+
+def bank_account_factory() -> BankAccount:
+    return BankAccount(balance=random.randint(100, 10000), creation_date=datetime.now())
+
+
+def random_transactions_generator(session, users: list[User]) -> None:
+    for _ in range(100):
+        user1 = random.choice(users)
+        user2 = random.choice(users)
+        amount = random.randint(100, 100000)
+        create_transaction(session, user1, amount, user2)
