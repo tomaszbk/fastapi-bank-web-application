@@ -23,7 +23,9 @@
                   <h5 class="card-title">My account</h5>
                   <h6>Balance: {{ user.bank_account.balance }}</h6>
                 </div>
-
+                {% if image is not none %}
+                <img src="data:image/png;base64,{{ image }}" alt="My Plot">
+                {%endif%}
               </div>
             </div><!-- End Reports -->
 

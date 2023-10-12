@@ -33,12 +33,16 @@ def user_factory() -> User:
 
 
 def bank_account_factory() -> BankAccount:
-    return BankAccount(balance=random.randint(100, 10000), creation_date=datetime.now())
+    return BankAccount(balance=random.randint(1000, 10000), creation_date=datetime.now())
 
 
-def random_transactions_generator(session, users: list[User]) -> None:
-    for _ in range(100):
-        user1 = random.choice(users)
-        user2 = random.choice(users)
-        amount = random.randint(100, 100000)
-        create_transaction(session, user1, amount, user2)
+def random_transactions_generator(session, iterations: int, users: list[User]) -> None:
+    for _ in range(iterations):
+        try:
+            user1 = random.choice(users)
+            user2 = random.choice(users)
+            amount = random.randint(100, 10000)
+            create_transaction(session, user1, amount, user2)
+        except Exception as ex:
+            session.rollback()
+            print(f"error: {ex}")
