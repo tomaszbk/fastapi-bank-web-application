@@ -2,7 +2,7 @@ import pytest
 from loguru import logger
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.bank_of_kukelia.infrastructure.models import Base
+from src.bank_of_tomorrow.infrastructure.models import Base
 
 
 @pytest.fixture(scope="session")

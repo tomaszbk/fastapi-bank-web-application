@@ -79,6 +79,6 @@ testpaths = [
     "tests"
 ]
 pythonpath = [
-    "src/bank_of_kukelia",
+    "src/bank_of_tomorrow",
     "tests"
     ]

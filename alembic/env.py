@@ -6,7 +6,7 @@ import os
 from alembic import context
 from dotenv import load_dotenv
 
-from src.bank_of_kukelia.infrastructure.models import Base
+from src.bank_of_tomorrow.infrastructure.models import Base
 
 
 load_dotenv()

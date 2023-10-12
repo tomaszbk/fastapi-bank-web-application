@@ -5,5 +5,5 @@
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.analysis.typeCheckingMode": "basic",
-    "jupyter.notebookFileRoot": "${workspaceFolder}/src/bank_of_kukelia"
+    "jupyter.notebookFileRoot": "${workspaceFolder}/src/bank_of_tomorrow"
 }

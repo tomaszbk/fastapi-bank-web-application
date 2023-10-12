@@ -12,7 +12,7 @@
             ],
             "jinja": true,
             "justMyCode": true,
-            "cwd": "${workspaceFolder}/src/bank_of_kukelia"
+            "cwd": "${workspaceFolder}/src/bank_of_tomorrow"
         }
     ]
 }
