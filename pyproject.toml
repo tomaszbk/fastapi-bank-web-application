@@ -51,6 +51,7 @@ mypy = "^1.5.1"
 black = "^23.9.1"
 pre-commit = "^3.4.0"
 ipykernel = "^6.25.2"
+matplotlib = "^3.8.0"
 
 [tool.mypy]
 ignore_missing_imports = true
