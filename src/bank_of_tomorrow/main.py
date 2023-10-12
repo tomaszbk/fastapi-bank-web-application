@@ -12,7 +12,7 @@ from api.routes.dashboard_routes import router as dashboard_router
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="entrypoints/api/static"), name="static")
+app.mount("/static", StaticFiles(directory="api/static"), name="static")
 
 
 @app.exception_handler(TemplateNotFound)

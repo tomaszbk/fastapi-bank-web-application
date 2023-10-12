@@ -14,7 +14,7 @@ from services.user_service import get_by_username as get_user_by_username
 from infrastructure.engine import postgres_session_factory
 from infrastructure.models import User
 
-templates = Jinja2Templates(directory="entrypoints/api/templates")
+templates = Jinja2Templates(directory="api/templates")
 
 router = APIRouter()
 
