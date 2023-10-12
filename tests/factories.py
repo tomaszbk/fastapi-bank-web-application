@@ -1,9 +1,9 @@
 import random
 from datetime import datetime
 
-from infrastructure.models import User, BankAccount
-from services.auth_service import auth
-from services.transaction_service import create_transaction
+from bank_of_tomorrow.infrastructure.models import User, BankAccount
+from bank_of_tomorrow.services.auth_service import auth
+from bank_of_tomorrow.services.transaction_service import create_transaction
 
 
 def generate_numbers():

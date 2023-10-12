@@ -5,13 +5,12 @@ from loguru import logger
 from typing import Annotated
 from datetime import timedelta
 
-from api.schemas.user_schemas import UserCreate
+from bank_of_tomorrow.api.schemas.user_schemas import UserCreate
+from bank_of_tomorrow.api.schemas.auth_schemas import Token
+from bank_of_tomorrow.services.auth_service import auth
+from bank_of_tomorrow.services.user_service import user_already_exists, create_user
 
-from services.auth_service import auth
-from services.user_service import user_already_exists, create_user
-from api.schemas.auth_schemas import Token
-
-from infrastructure.engine import postgres_session_factory
+from bank_of_tomorrow.infrastructure.engine import postgres_session_factory
 
 
 router = APIRouter()

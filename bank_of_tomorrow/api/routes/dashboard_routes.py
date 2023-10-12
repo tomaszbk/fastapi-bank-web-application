@@ -1,18 +1,18 @@
 from fastapi import APIRouter, Request, HTTPException, status, Depends
 from fastapi.templating import Jinja2Templates
 
-from api.routes.auth_routes import (
+from bank_of_tomorrow.api.routes.auth_routes import (
     get_current_user_from_header,
     get_current_user_from_url,
 )
-from api.schemas.user_schemas import UserRead
-from api.schemas.transaction_schemas import TransactionCreate
+from bank_of_tomorrow.api.schemas.user_schemas import UserRead
+from bank_of_tomorrow.api.schemas.transaction_schemas import TransactionCreate
 
-from services.transaction_service import create_transaction, get_transactions_chart
-from services.user_service import get_by_username as get_user_by_username
+from bank_of_tomorrow.services.transaction_service import create_transaction, get_transactions_chart
+from bank_of_tomorrow.services.user_service import get_by_username as get_user_by_username
 
-from infrastructure.engine import postgres_session_factory
-from infrastructure.models import User
+from bank_of_tomorrow.infrastructure.engine import postgres_session_factory
+from bank_of_tomorrow.infrastructure.models import User
 
 templates = Jinja2Templates(directory="api/templates")
 

@@ -41,6 +41,7 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     # "C901",  # complexity
 ]
+show-fixes = true
 
 target-version = "py311"
 
@@ -71,15 +72,8 @@ disable = """
     missing-class-docstring
 """
 
-python.autoComplete.extraPaths= ["./src"]
-
-
 [tool.pytest.ini_options]
 python_files ="test*.py"
 testpaths = [
     "tests"
 ]
-pythonpath = [
-    "src/bank_of_tomorrow",
-    "tests"
-    ]

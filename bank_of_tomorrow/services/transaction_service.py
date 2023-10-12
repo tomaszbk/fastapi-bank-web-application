@@ -1,4 +1,4 @@
-from infrastructure.models import User, Transaction
+from bank_of_tomorrow.infrastructure.models import User, Transaction
 
 from sqlalchemy.orm import Session
 

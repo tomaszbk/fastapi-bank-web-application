@@ -1,11 +1,11 @@
-from infrastructure.models import User, BankAccount
-from api.schemas.user_schemas import UserCreate
-from services.auth_service import auth
-
-from domain.bank_account_logic import DEFAULT_FIRST_ACCOUNT_BALANCE
 from sqlalchemy.orm import Session
 
 from datetime import datetime
+
+from bank_of_tomorrow.infrastructure.models import User, BankAccount
+from bank_of_tomorrow.api.schemas.user_schemas import UserCreate
+from bank_of_tomorrow.services.auth_service import auth
+from bank_of_tomorrow.domain.bank_account_logic import DEFAULT_FIRST_ACCOUNT_BALANCE
 
 
 def user_already_exists(session: Session, username: str):
