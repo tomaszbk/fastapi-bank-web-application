@@ -5,11 +5,11 @@ from loguru import logger
 from typing import Annotated
 from datetime import timedelta
 
-from entrypoints.api.schemas.user_schemas import UserCreate
+from api.schemas.user_schemas import UserCreate
 
 from services.auth_service import auth
 from services.user_service import user_already_exists, create_user
-from entrypoints.api.schemas.auth_schemas import Token
+from api.schemas.auth_schemas import Token
 
 from infrastructure.engine import postgres_session_factory
 

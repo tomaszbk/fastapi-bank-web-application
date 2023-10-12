@@ -1,5 +1,5 @@
 from infrastructure.models import User, BankAccount
-from entrypoints.api.schemas.user_schemas import UserCreate
+from api.schemas.user_schemas import UserCreate
 from services.auth_service import auth
 
 from domain.bank_account_logic import DEFAULT_FIRST_ACCOUNT_BALANCE

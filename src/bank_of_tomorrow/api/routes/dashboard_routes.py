@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Request, HTTPException, status, Depends
 from fastapi.templating import Jinja2Templates
 
-from entrypoints.api.routes.auth_routes import (
+from api.routes.auth_routes import (
     get_current_user_from_header,
     get_current_user_from_url,
 )
-from entrypoints.api.schemas.user_schemas import UserRead
-from entrypoints.api.schemas.transaction_schemas import TransactionCreate
+from api.schemas.user_schemas import UserRead
+from api.schemas.transaction_schemas import TransactionCreate
 
 from services.transaction_service import create_transaction
 from services.user_service import get_by_username as get_user_by_username

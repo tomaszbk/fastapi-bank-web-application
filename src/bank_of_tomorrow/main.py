@@ -6,9 +6,9 @@ from loguru import logger
 from jinja2 import TemplateNotFound
 from jose import ExpiredSignatureError
 
-from entrypoints.api.routes.home_routes import router as home_router
-from entrypoints.api.routes.auth_routes import router as security_router
-from entrypoints.api.routes.dashboard_routes import router as dashboard_router
+from api.routes.home_routes import router as home_router
+from api.routes.auth_routes import router as security_router
+from api.routes.dashboard_routes import router as dashboard_router
 
 
 app = FastAPI()
