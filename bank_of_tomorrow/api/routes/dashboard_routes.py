@@ -14,7 +14,7 @@ from bank_of_tomorrow.services.user_service import get_by_username as get_user_b
 from bank_of_tomorrow.infrastructure.engine import postgres_session_factory
 from bank_of_tomorrow.infrastructure.models import User
 
-templates = Jinja2Templates(directory="api/templates")
+templates = Jinja2Templates(directory="bank_of_tomorrow/api/templates")
 
 router = APIRouter()
 

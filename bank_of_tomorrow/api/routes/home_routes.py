@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from loguru import logger
 
 
-templates = Jinja2Templates(directory="api/templates")
+templates = Jinja2Templates(directory="bank_of_tomorrow/api/templates")
 
 router = APIRouter()
 

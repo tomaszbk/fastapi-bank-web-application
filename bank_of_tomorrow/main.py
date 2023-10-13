@@ -12,7 +12,7 @@ from bank_of_tomorrow.api.routes.dashboard_routes import router as dashboard_rou
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="api/static"), name="static")
+app.mount("/static", StaticFiles(directory="bank_of_tomorrow/api/static"), name="static")
 
 
 @app.exception_handler(TemplateNotFound)

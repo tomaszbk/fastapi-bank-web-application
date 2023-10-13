@@ -7,12 +7,12 @@
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "main:app",
+                "bank_of_tomorrow.main:app",
                 "--reload"
             ],
             "jinja": true,
             "justMyCode": true,
-            "cwd": "${workspaceFolder}/src/bank_of_tomorrow"
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
