@@ -1,4 +1,5 @@
 version: '3.4'
+name: bank-of-tomorrow
 services:
 
   fastapi:
@@ -6,11 +7,10 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    # volumes:
-    #   - ./src/bank_of_tomorrow:/app
-    command: ["sh", "-c", "python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
+    command: ["sh", "-c", "python -m uvicorn bank_of_tomorrow.main:app --host 0.0.0.0 --port 8000"]
     environment:
       - POSTGRES_URI=postgresql://postgres:postgres@desarrollo-postgres-1:5432/postgres
+      - ENVIRONMENT=DEV
     ports:
       - 8000:8000
     depends_on:
@@ -42,3 +42,8 @@ services:
       - "8080:80"
     depends_on:
       - postgres
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
