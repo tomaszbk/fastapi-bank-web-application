@@ -7,10 +7,12 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: ["sh", "-c", "python -m uvicorn bank_of_tomorrow.main:app --host 0.0.0.0 --port 8000"]
+    command: ["sh", "-c", "python -m uvicorn bank_of_tomorrow.main:app --host 0.0.0.0 --port 8000 --reload"]
     environment:
-      - POSTGRES_URI=postgresql://postgres:postgres@desarrollo-postgres-1:5432/postgres
+      - POSTGRES_URI=postgresql://postgres:postgres@bank-of-tomorrow-postgres-1:5432/postgres
       - ENVIRONMENT=DEV
+    volumes:
+      - ./bank_of_tomorrow:/app/bank_of_tomorrow
     ports:
       - 8000:8000
     depends_on:
