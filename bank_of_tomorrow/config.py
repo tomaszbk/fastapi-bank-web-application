@@ -8,7 +8,9 @@ ENVIRONMENT = os.getenv("ENVIRONMENT")
 
 def get_postgres_uri() -> str:
     uri = os.getenv("POSTGRES_URI")
-    return uri if ENVIRONMENT != "LOCAL" else uri.replace("desarrollo-postgres-1", "localhost")  # type: ignore
+    if not uri:
+        raise Exception("POSTGRES_URI not set")
+    return uri
 
 
 def get_redis_uri() -> tuple[str, int]:

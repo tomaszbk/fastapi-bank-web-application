@@ -1,10 +1,8 @@
-from datetime import datetime
-
-
 def test_create_transaction(session):
     from tests.factories import user_factory
     from bank_of_tomorrow.services.transaction_service import create_transaction
     from bank_of_tomorrow.infrastructure.models import BankAccount
+    from datetime import datetime
 
     user1 = user_factory()
     user1.bank_account = BankAccount(balance=8000, creation_date=datetime.now())

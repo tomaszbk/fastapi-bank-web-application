@@ -22,6 +22,8 @@ sqlacodegen-v2 = "^0.1.4"
 alembic = "^1.12.0"
 python-dotenv = "^1.0.0"
 aioredis = "^2.0.1"
+redis = "^5.0.1"
+matplotlib = "^3.8.0"
 
 [tool.black]
 line-length = 100
@@ -43,8 +45,9 @@ ignore = [
     # "C901",  # complexity
 ]
 show-fixes = true
-
+fix = true
 target-version = "py311"
+src = ["bank_of_tomorrow", "tests"]
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^2.17.5"

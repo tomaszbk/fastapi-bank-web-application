@@ -1,12 +1,10 @@
 from passlib.context import CryptContext
 from jose import jwt
-import json
 from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
 from bank_of_tomorrow.infrastructure.models import User
-from bank_of_tomorrow.infrastructure.redis_client import redis_client_factory
 
 
 class Auth:
@@ -43,19 +41,14 @@ class Auth:
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
 
-    async def get_current_active_user(
-        self, session: Session, token: str, cache=redis_client_factory.get_client()
-    ) -> User:
+    async def get_current_active_user(self, session: Session, token: str) -> User:
         payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
 
         username: str = payload.get("sub")
-        user = json.loads(await cache.get(username))
-        if await cache.get(username) is None:
-            user = session.query(User).filter(User.username == username).one_or_none()
+        user = session.query(User).filter(User.username == username).one_or_none()
         if user is None:
             raise Exception("User not found")
         user.last_login = datetime.utcnow()
-        await cache.set(username, json.dumps(user))
         return user
 
 

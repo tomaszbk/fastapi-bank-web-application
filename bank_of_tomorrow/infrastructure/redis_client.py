@@ -1,4 +1,4 @@
-import aioredis
+from redis import asyncio as aioredis
 
 from bank_of_tomorrow.config import get_redis_uri
 

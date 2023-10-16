@@ -1,9 +1,7 @@
-from datetime import datetime
-from sqlalchemy.exc import IntegrityError
-
-
 def test_negative_balance_raises_error(session):
     from bank_of_tomorrow.infrastructure.models import BankAccount
+    from datetime import datetime
+    from sqlalchemy.exc import IntegrityError
 
     # create a bank account with initial balance of 20000
     now = datetime.now()
