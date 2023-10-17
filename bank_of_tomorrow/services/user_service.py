@@ -35,3 +35,10 @@ def create_user(session: Session, form_data: UserCreate):
 def get_by_username(session: Session, username: str):
     user = session.query(User).filter_by(username=username).one_or_none()
     return user
+
+
+def get_transactions(user: User):
+    """Get all transactions from a user orderer by date"""
+    transactions = user.bank_account.origin_transactions + user.bank_account.destiny_transactions
+    transactions.sort(key=lambda transaction: transaction.transaction_date, reverse=True)
+    return transactions

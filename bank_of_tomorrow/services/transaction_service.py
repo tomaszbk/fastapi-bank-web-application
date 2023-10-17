@@ -1,9 +1,9 @@
 from bank_of_tomorrow.infrastructure.models import User, Transaction
-
+from bank_of_tomorrow.domain.transaction_logic import create_transactions_chart
+from bank_of_tomorrow.services.user_service import get_transactions as get_user_transactions
 from sqlalchemy.orm import Session
-
-from datetime import datetime
 from sqlalchemy.exc import IntegrityError
+from datetime import datetime
 
 
 def create_transaction(session: Session, origin_user: User, amount: float, destiny_user: User):
@@ -22,3 +22,8 @@ def create_transaction(session: Session, origin_user: User, amount: float, desti
     session.add(transaction)
     session.commit()
     return transaction
+
+
+async def get_transactions_chart(user: User):
+    transactions = get_user_transactions(user)
+    return create_transactions_chart(user, transactions)

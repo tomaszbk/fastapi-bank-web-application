@@ -8,13 +8,17 @@ from bank_of_tomorrow.api.routes.auth_routes import (
 from bank_of_tomorrow.api.schemas.user_schemas import UserRead
 from bank_of_tomorrow.api.schemas.transaction_schemas import TransactionCreate
 
-from bank_of_tomorrow.services.transaction_service import create_transaction
-from bank_of_tomorrow.services.user_service import get_by_username as get_user_by_username
+from bank_of_tomorrow.services.transaction_service import create_transaction, get_transactions_chart
+from bank_of_tomorrow.services.user_service import (
+    get_by_username as get_user_by_username,
+    get_transactions as get_user_transactions,
+)
 
 from bank_of_tomorrow.infrastructure.engine import postgres_session_factory
+from bank_of_tomorrow.infrastructure.redis_client import redis_client_factory
 from bank_of_tomorrow.infrastructure.models import User
 
-from bank_of_tomorrow.domain.transaction_logic import get_transactions_chart
+from loguru import logger
 
 
 templates = Jinja2Templates(directory="bank_of_tomorrow/api/templates")
@@ -23,12 +27,20 @@ router = APIRouter()
 
 
 @router.get("")
-async def dashboard_view(request: Request, user: User = Depends(get_current_user_from_url)):
+async def dashboard_view(
+    request: Request,
+    user: User = Depends(get_current_user_from_url),
+    cache=redis_client_factory.get_client(),
+):
     """Template includes chart of user's balance over time,
     and a table of user's recent transactions."""
-    transactions = user.bank_account.origin_transactions + user.bank_account.destiny_transactions
-    transactions.sort(key=lambda transaction: transaction.transaction_date, reverse=True)
-    image = await get_transactions_chart(user, transactions)
+    if await cache.exists(user.username):
+        logger.info("getting chart from cache")
+        image = await cache.get(user.id)
+    else:
+        image = await get_transactions_chart(user)
+        await cache.set(user.username, image)
+    transactions = get_user_transactions(user)
     return templates.TemplateResponse(
         "dashboard.html",
         {"request": request, "user": user, "transactions": transactions, "image": image},
