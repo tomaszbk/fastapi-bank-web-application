@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "desarrollo"
+name = "bank_of_tomorrow"
 version = "0.1.0"
 description = ""
 authors = ["Tomas Zubik <zubik.tomas@gmail.com>"]
