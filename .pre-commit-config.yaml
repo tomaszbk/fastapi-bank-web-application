@@ -37,7 +37,7 @@ repos:
       - id: tests
         name: run tests
         pass_filenames: false
-        entry: pytest -v tests
+        entry: pre-push-check.sh
         language: system
         types: [python]
         stages: [push]
