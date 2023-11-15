@@ -1,4 +1,3 @@
-#!/bin/bash
 
 main_branch="main"
 dev_branch="dev"
