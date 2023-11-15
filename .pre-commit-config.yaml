@@ -12,17 +12,19 @@ default_language_version:
   python: python3
 
 repos:
-  # Black
-  - repo: https://github.com/psf/black
-    rev: 23.1.0
-    hooks:
-      - id: black
 
   # Ruff
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.0.292"
     hooks:
       - id: ruff
+        args: [ --fix ]
+
+  # Black
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
 
   # Mypy
   # - repo: https://github.com/pre-commit/mirrors-mypy
