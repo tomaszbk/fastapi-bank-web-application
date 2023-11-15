@@ -1,9 +1,12 @@
 import os
 from dotenv import load_dotenv
+from fastapi.templating import Jinja2Templates
 
 load_dotenv()
 
 LOCAL = True
+
+templates = Jinja2Templates(directory="bank_of_tomorrow/api/templates")
 
 
 def get_postgres_uri() -> str:

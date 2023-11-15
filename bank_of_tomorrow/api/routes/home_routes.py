@@ -1,9 +1,6 @@
 from fastapi import APIRouter, Request
-from fastapi.templating import Jinja2Templates
 from loguru import logger
-
-
-templates = Jinja2Templates(directory="bank_of_tomorrow/api/templates")
+from bank_of_tomorrow.config import templates
 
 router = APIRouter()
 
