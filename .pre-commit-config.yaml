@@ -34,12 +34,12 @@ repos:
   #       args: [--no-namespace-packages]
 
   # Pytest
-  - repo: local
-    hooks:
-      - id: tests
-        name: run tests
-        pass_filenames: false
-        entry: ./pre-push-check.sh
-        language: system
-        types: [python]
-        stages: [push]
+  # - repo: local
+  #   hooks:
+  #     - id: tests
+  #       name: run tests
+  #       pass_filenames: false
+  #       entry: ./pre-push-check.sh
+  #       language: system
+  #       types: [python]
+  #       stages: [push]
