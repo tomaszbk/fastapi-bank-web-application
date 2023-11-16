@@ -15,3 +15,4 @@ def test_user_registration(session):
     assert user is not None
     assert user.username == "test_username"
     assert user_already_exists(session, "test_username") is True
+    assert user.bank_account.balance == 10000
