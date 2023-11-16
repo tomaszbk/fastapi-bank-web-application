@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
 from loguru import logger
-from bank_of_tomorrow.config import templates
+from app.config import templates
 
 router = APIRouter()
 

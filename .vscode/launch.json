@@ -7,7 +7,7 @@
             "request": "launch",
             "module": "uvicorn",
             "args": [
-                "bank_of_tomorrow.main:app",
+                "app.main:app",
                 "--reload"
             ],
             "jinja": true,

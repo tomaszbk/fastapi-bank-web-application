@@ -2,7 +2,7 @@ from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm.session import sessionmaker
 from loguru import logger
 
-from bank_of_tomorrow.config import get_postgres_uri
+from app.config import get_postgres_uri
 
 
 class PostgresSessionFactory:

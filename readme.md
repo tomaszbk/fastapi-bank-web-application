@@ -44,7 +44,7 @@ The token will be used by the 3rd party entity, and must be sent together with a
 
 $ poetry install
 
-run bank_of_tomorrow/main.py
+run app/main.py
 
 ### Cheatsheet
 

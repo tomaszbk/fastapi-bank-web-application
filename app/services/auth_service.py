@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
-from bank_of_tomorrow.infrastructure.models import User
+from app.infrastructure.models import User
 
 
 class Auth:

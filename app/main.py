@@ -6,13 +6,13 @@ from loguru import logger
 from jinja2 import TemplateNotFound
 from jose import ExpiredSignatureError
 
-from bank_of_tomorrow.api.routes.home_routes import router as home_router
-from bank_of_tomorrow.api.routes.auth_routes import router as security_router
-from bank_of_tomorrow.api.routes.dashboard_routes import router as dashboard_router
+from app.api.routes.home_routes import router as home_router
+from app.api.routes.auth_routes import router as security_router
+from app.api.routes.dashboard_routes import router as dashboard_router
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="bank_of_tomorrow/api/static"), name="static")
+app.mount("/static", StaticFiles(directory="app/api/static"), name="static")
 
 
 @app.exception_handler(TemplateNotFound)
