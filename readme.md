@@ -38,7 +38,7 @@ The token will be used by the 3rd party entity, and must be sent together with a
 
 - **TDD (Test-Driven Development):** Adopting Test-Driven Development as a methodology for the development of the application, ensuring that tests are written before the actual code to promote robust and reliable software.
 
-- **Layered Architecture:** Implementing a Layered Architecture for improved separation of concerns, promoting a modular and maintainable structure in the application.
+- **Layered Architecture:** Implementing a Layered Architecture for improved separation of concerns, promoting a modular, easily testable and maintainable structure in the application.
 
 ![alt text](/docs/architecture_diagramV2.png "Bank Home Page")
 
