@@ -79,3 +79,9 @@ Migrating changes to database:
 ```alembic revision -m "create account table"```
 
 ```alembic upgrade head```
+
+\
+Initializing pre-commit:
+
+```poetry run pre-commit install && poetry run pre-commit install -t pre-push```
+```poetry run pre-commit run --all-files```
