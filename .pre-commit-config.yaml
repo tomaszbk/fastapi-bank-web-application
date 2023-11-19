@@ -12,17 +12,21 @@ default_language_version:
   python: python3
 
 repos:
-  # Black
-  - repo: https://github.com/psf/black
-    rev: 23.1.0
-    hooks:
-      - id: black
 
   # Ruff
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.0.292"
     hooks:
       - id: ruff
+        args: [ --fix ]
+        stages: [commit]
+
+  # Black
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        stages: [commit]
 
   # Mypy
   # - repo: https://github.com/pre-commit/mirrors-mypy
@@ -32,12 +36,12 @@ repos:
   #       args: [--no-namespace-packages]
 
   # Pytest
-  - repo: local
-    hooks:
-      - id: tests
-        name: run tests
-        pass_filenames: false
-        entry: pytest -v tests
-        language: system
-        types: [python]
-        stages: [push]
+  # - repo: local
+  #   hooks:
+  #     - id: tests
+  #       name: run tests
+  #       pass_filenames: false
+  #       entry: ./pre-push-check.sh
+  #       language: system
+  #       types: [python]
+  #       stages: [push]

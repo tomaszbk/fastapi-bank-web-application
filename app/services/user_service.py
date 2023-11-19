@@ -2,10 +2,10 @@ from sqlalchemy.orm import Session
 
 from datetime import datetime
 
-from bank_of_tomorrow.infrastructure.models import User, BankAccount
-from bank_of_tomorrow.api.schemas.user_schemas import UserCreate
-from bank_of_tomorrow.services.auth_service import auth
-from bank_of_tomorrow.domain.bank_account_logic import DEFAULT_FIRST_ACCOUNT_BALANCE
+from app.infrastructure.models import User, BankAccount
+from app.api.schemas.user_schemas import UserCreate
+from app.services.auth_service import auth
+from app.config import config
 
 
 def user_already_exists(session: Session, username: str):
@@ -26,7 +26,9 @@ def create_user(session: Session, form_data: UserCreate):
         creation_date=now,
         last_updated=now,
     )
-    user.bank_account = BankAccount(balance=DEFAULT_FIRST_ACCOUNT_BALANCE, creation_date=now)
+    user.bank_account = BankAccount(
+        balance=config["DEFAULT_FIRST_ACCOUNT_BALANCE"], creation_date=now
+    )
     session.add(user)
     session.commit()
     return user

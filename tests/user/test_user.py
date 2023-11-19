@@ -1,6 +1,6 @@
 def test_user_registration(session):
-    from bank_of_tomorrow.services.user_service import user_already_exists, create_user
-    from bank_of_tomorrow.api.schemas.user_schemas import UserCreate
+    from app.services.user_service import user_already_exists, create_user
+    from app.api.schemas.user_schemas import UserCreate
 
     form_data = UserCreate(
         username="test_username",
@@ -15,3 +15,4 @@ def test_user_registration(session):
     assert user is not None
     assert user.username == "test_username"
     assert user_already_exists(session, "test_username") is True
+    assert user.bank_account.balance == 10000

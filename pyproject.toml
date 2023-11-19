@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "desarrollo"
+name = "app"
 version = "0.1.0"
 description = ""
 authors = ["Tomas Zubik <zubik.tomas@gmail.com>"]
@@ -21,6 +21,7 @@ psycopg2 = "^2.9.7"
 sqlacodegen-v2 = "^0.1.4"
 alembic = "^1.12.0"
 python-dotenv = "^1.0.0"
+matplotlib = "^3.8.1"
 
 [tool.black]
 line-length = 100
@@ -41,8 +42,9 @@ ignore = [
     "B008",  # do not perform function calls in argument defaults
     # "C901",  # complexity
 ]
+fixable = ["ALL"]
+unfixable = []
 show-fixes = true
-
 target-version = "py311"
 
 [tool.poetry.group.dev.dependencies]
@@ -50,9 +52,9 @@ pylint = "^2.17.5"
 ruff = "^0.0.292"
 mypy = "^1.5.1"
 black = "^23.9.1"
-pre-commit = "^3.4.0"
 ipykernel = "^6.25.2"
 matplotlib = "^3.8.0"
+pre-commit = "^3.5.0"
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -77,3 +79,6 @@ python_files ="test*.py"
 testpaths = [
     "tests"
 ]
+
+[tool.isort]
+profile = "black"
