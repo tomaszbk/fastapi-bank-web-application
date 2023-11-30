@@ -1,5 +1,3 @@
-const bearerToken = localStorage.getItem('access_token');
-
 let form = document.getElementsByTagName('form')[0];
 form.addEventListener('submit', function(e) {
     e.preventDefault();
