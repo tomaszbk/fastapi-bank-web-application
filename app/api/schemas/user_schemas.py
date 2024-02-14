@@ -6,7 +6,7 @@ class UserCreate(BaseModel):
     surname: str
     username: str
     password: str
-    dni: int
+    cuit: int
     age: int
     email: str
 
@@ -16,11 +16,11 @@ class UserCreate(BaseModel):
             raise ValueError("Age must be greater than 18 or less than 100")
         return age
 
-    @field_validator("dni")
-    def dni_must_be_valid(cls, dni):
-        if len(str(dni)) != 8:
-            raise ValueError("DNI must be 8 digits long")
-        return dni
+    @field_validator("cuit")
+    def cuit_must_be_valid(cls, cuit):
+        if len(str(cuit)) != 11:
+            raise ValueError("cuit must be 8 digits long")
+        return cuit
 
     @field_validator("email")
     def email_must_be_valid(cls, email):

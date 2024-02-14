@@ -1,4 +1,5 @@
 from app.infrastructure.models import User, Transaction
+from app.infrastructure.external import get_transaction_number
 
 from sqlalchemy.orm import Session
 
@@ -12,7 +13,8 @@ import base64
 
 def create_transaction(session: Session, origin_user: User, amount: float, destiny_user: User):
     now = datetime.now()
-    transaction = Transaction(amount, now)
+    transaction_number = get_transaction_number()
+    transaction = Transaction(transaction_number, amount, now)
     origin_user.bank_account.balance -= amount
     session.add(origin_user.bank_account)
     try:
@@ -33,7 +35,7 @@ def get_transactions_chart(user: User, transactions: list[Transaction]):
         return None
     amounts, dates = zip(
         *(
-            (t.amount if t.origin_account_id != user.id else -t.amount, t.transaction_date)
+            (t.amount if t.origin_account_id != user.id else -t.amount, t.date)
             for t in transactions
         ),
         strict=True,
