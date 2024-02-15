@@ -91,7 +91,7 @@ class Transaction(Base):
     )
 
     id: M[int] = column(Integer, init=False)
-    transaction_number: M[str] = column(String(50), nullable=False)
+    number: M[str] = column(String(50), nullable=False)
     origin_account_id: M[int] = column(Integer, nullable=False, init=False)
     destination_account_id: M[int] = column(Integer, nullable=False, init=False)
     amount: M[float] = column(Double(53), nullable=False)

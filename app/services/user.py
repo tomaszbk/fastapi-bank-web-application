@@ -2,10 +2,10 @@ from sqlalchemy.orm import Session
 
 from datetime import datetime
 
-from app.infrastructure.models import User, BankAccount, Bank, bank_of_tomorrow
-from app.api.schemas.user_schemas import UserCreate
-from app.services.auth_service import auth
-from app.config import config
+from app.infrastructure.models import User, BankAccount, bank_of_tomorrow
+from app.schemas.user_schemas import UserCreate
+from app.services.auth import auth
+from app.services.account import create_bank_account
 
 
 def user_already_exists(session: Session, username: str):
@@ -42,20 +42,3 @@ def get_user_by_username(session: Session, username: str):
 def get_user_by_cbu(session: Session, cbu: str):
     bank_account = session.query(BankAccount).filter_by(cbu=cbu).one_or_none()
     return bank_account.user if bank_account else None
-
-
-def create_bank_account(session: Session, cbu: str | None):
-    date = datetime.now()
-    bank_account = BankAccount(balance=config["DEFAULT_FIRST_ACCOUNT_BALANCE"], creation_date=date)
-    if cbu:
-        bank = session.query(Bank).filter_by(code=cbu[:10]).one_or_none()
-        if bank:
-            bank_account.bank = bank
-        else:
-            raise Exception("Bank not found")
-        bank_account.cbu = cbu
-    else:
-        bank_account.bank = bank_of_tomorrow
-        session.flush()
-        bank_account.cbu = bank_of_tomorrow.code + str(bank_account.id * 100000000000)
-    return bank_account

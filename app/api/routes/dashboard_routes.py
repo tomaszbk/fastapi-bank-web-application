@@ -1,17 +1,15 @@
-from fastapi import APIRouter, Request, HTTPException, status, Depends
+from fastapi import APIRouter, Request, Depends
 
 from app.api.routes.auth_routes import (
-    get_current_user_from_header,
     get_current_user_from_url,
 )
-from app.api.schemas.user_schemas import UserRead
-from app.api.schemas.transaction_schemas import TransactionCreate
+from app.schemas.user_schemas import UserRead
+from app.schemas.transaction_schemas import TransactionCreate
 
-from app.services.transaction_service import create_transaction, get_transactions_chart
-from app.services.user_service import get_user_by_cbu, create_bank_account
+from app.services.transaction import create_transaction, get_transactions_chart
 
 from app.infrastructure.engine import postgres_session_factory
-from app.infrastructure.models import User, bank_of_tomorrow
+from app.infrastructure.models import User
 from app.config import templates
 
 router = APIRouter()
@@ -44,19 +42,8 @@ async def transaction_view(request: Request, user: UserRead = Depends(get_curren
 
 @router.post("/transaction")
 async def transaction(
-    transaction: TransactionCreate,
-    session=Depends(postgres_session_factory.get_session),
-    user=Depends(get_current_user_from_header),
+    transaction: TransactionCreate, session=Depends(postgres_session_factory.get_session)
 ):
     """Creates a new transaction."""
-    destiny_user = get_user_by_cbu(session, transaction.destiny_cbu)
-    if destiny_user is None:
-        if transaction.destiny_cbu[:10] != bank_of_tomorrow.code:
-            create_bank_account(session, transaction.destiny_cbu)
-        else:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="No user found with provided username",
-            )
-    create_transaction(session, user, transaction.amount, destiny_user)
+    create_transaction(session, transaction)
     return {"message": "Transaction created successfully"}
