@@ -1,4 +1,10 @@
-from sqlalchemy import CheckConstraint, Integer, String, PrimaryKeyConstraint, UniqueConstraint
+from sqlalchemy import (
+    CheckConstraint,
+    Integer,
+    String,
+    PrimaryKeyConstraint,
+    UniqueConstraint,
+)
 from sqlalchemy import DateTime, Double, ForeignKeyConstraint
 from sqlalchemy.orm import (
     DeclarativeBase,
@@ -11,6 +17,7 @@ from datetime import datetime
 from typing import List
 
 from app.infrastructure.engine import postgres_session_factory
+from app.config import config
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
@@ -85,7 +92,9 @@ class Transaction(Base):
             name="transactions_destination_account_id_fkey",
         ),
         ForeignKeyConstraint(
-            ["origin_account_id"], ["bank_accounts.id"], name="transactions_origin_account_id_fkey"
+            ["origin_account_id"],
+            ["bank_accounts.id"],
+            name="transactions_origin_account_id_fkey",
         ),
         PrimaryKeyConstraint("id", name="transactions_pkey"),
     )
@@ -121,6 +130,7 @@ class Bank(Base):
     id: M[int] = column(Integer, init=False)
     code: M[str] = column(String(10), nullable=False)
     name: M[str] = column(String(50), nullable=False)
+    url: M[str] = column(String(100), nullable=False)
 
     accounts: M[List["BankAccount"]] = relationship(
         "BankAccount", back_populates="bank", init=False
@@ -130,11 +140,11 @@ class Bank(Base):
 engine = postgres_session_factory.engine
 Base.metadata.create_all(engine)
 
-external_banks = {"0000000001": "Milagro Financiero", "0000000003": "Generacion"}
-bank_of_tomorrow = Bank(code="0000000002", name="Bank of Tomorrow")
+external_banks = config["EXTERNAL_BANKS"]
+bank_of_tomorrow = Bank(code="0000000002", name="Bank of Tomorrow", url="localhost")
 
 with postgres_session_factory.Session() as session:
     for bank in external_banks:
-        session.add(Bank(code=bank, name=external_banks[bank]))
+        session.add(Bank(code=bank["code"], name=external_banks["name"], url=external_banks["url"]))
     session.add(bank_of_tomorrow)
     session.commit()
