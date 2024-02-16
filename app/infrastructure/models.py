@@ -62,6 +62,7 @@ class BankAccount(Base):
     __table_args__ = (
         CheckConstraint("balance >= 0", name="bank_accounts_balance_check"),
         ForeignKeyConstraint(["user_id"], ["users.id"], name="bank_accounts_user_id_fkey"),
+        ForeignKeyConstraint(["bank_id"], ["banks.id"], name="bank_accounts_bank_id_fkey"),
         PrimaryKeyConstraint("id", name="bank_accounts_pkey"),
         UniqueConstraint("user_id", name="bank_accounts_user_id_key"),
     )
