@@ -2,8 +2,9 @@ import random
 from datetime import datetime
 
 from app.infrastructure.models import User, BankAccount
-from app.services.auth_service import auth
-from app.services.transaction_service import create_transaction
+from app.services.auth import auth
+from app.services.transaction import create_transaction
+from app.schemas.transaction import TransactionCreate
 
 
 def generate_numbers():
@@ -23,7 +24,7 @@ def user_factory() -> User:
         username=username,
         name=f"{username}_name",
         surname=f"{username}_surname",
-        dni=random.randint(100000, 999999),
+        cuit=random.randint(100000000, 999999999),
         age=random.randint(18, 99),
         email=f"{username}@example.com",
         hashed_password=auth.hash_password("test123"),
@@ -42,7 +43,10 @@ def random_transactions_generator(session, iterations: int, users: list[User]) -
             user1 = random.choice(users)
             user2 = random.choice(users)
             amount = random.randint(100, 10000)
-            create_transaction(session, user1, amount, user2)
+            data = TransactionCreate(
+                origin_cbu=user1.bank_account.cbu, destiny_cbu=user2.bank_account.cbu, amount=amount
+            )
+            create_transaction(session, data)
         except Exception as ex:
             session.rollback()
             print(f"error: {ex}")

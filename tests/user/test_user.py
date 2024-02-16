@@ -1,13 +1,13 @@
 def test_user_registration(session):
-    from app.services.user_service import user_already_exists, create_user
-    from app.api.schemas.user_schemas import UserCreate
+    from app.services.user import user_already_exists, create_user
+    from app.schemas.user import UserCreate
 
     form_data = UserCreate(
         username="test_username",
         password="test",
         name="test",
         surname="test",
-        dni=12345678,
+        cuit=20123456782,
         age=18,
         email="test@hotmail.com",
     )
