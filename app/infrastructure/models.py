@@ -156,9 +156,10 @@ def init_db(engine):
             return
         for bank in external_banks:
             session.add(Bank(code=bank["code"], name=bank["name"], url=bank["url"]))
-        account1 = create_bank_account(session, "0000000002000000000001")
-        account2 = create_bank_account(session, "0000000002000000000002")
-        session.add(account1)
-        session.add(account2)
         session.add(bank_of_tomorrow)
+        account1 = create_bank_account(session, "0000000002000000000001")
+        session.add(account1)
+        account2 = create_bank_account(session, "0000000002000000000002")
+        session.add(account2)
+
         session.commit()

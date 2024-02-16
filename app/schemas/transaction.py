@@ -9,11 +9,11 @@ class TransactionCreate(BaseModel):
     motive: str | None = None
     number: str | None = None
 
-    @field_validator("cbu")
-    def cbu_len_must_be_valid(cls, cuit):
-        if len(str(cuit)) != 22:
+    @field_validator("origin_cbu", "destiny_cbu")
+    def cbu_len_must_be_valid(cls, cbu: str):
+        if len(str(cbu)) != 22:
             raise ValueError("cbu must be 22 digits long")
-        return cuit
+        return cbu
 
 
 class TransactionCreateFront(BaseModel):
