@@ -10,9 +10,11 @@ def get_bank_account_by_cbu(session: Session, cbu: str):
     return session.query(BankAccount).filter_by(cbu=cbu).one_or_none()
 
 
-def create_bank_account(session: Session, cbu: str | None):
+def create_bank_account(
+    session: Session, cbu: str | None, balance: float = config["DEFAULT_FIRST_ACCOUNT_BALANCE"]
+):
     date = datetime.now()
-    bank_account = BankAccount(balance=config["DEFAULT_FIRST_ACCOUNT_BALANCE"], creation_date=date)
+    bank_account = BankAccount(balance=balance, creation_date=date)
     if cbu:
         bank = session.query(Bank).filter_by(code=cbu[:10]).one_or_none()
         if bank:

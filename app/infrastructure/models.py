@@ -11,11 +11,7 @@ from sqlalchemy import (
     String,
     UniqueConstraint,
 )
-from sqlalchemy.orm import (
-    DeclarativeBase,
-    MappedAsDataclass,
-    relationship,
-)
+from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, relationship, sessionmaker
 from sqlalchemy.orm import (
     Mapped as M,
 )
@@ -24,7 +20,6 @@ from sqlalchemy.orm import (
 )
 
 from app.config import config
-from app.infrastructure.engine import postgres_session_factory
 
 
 class Base(MappedAsDataclass, DeclarativeBase):
@@ -146,15 +141,18 @@ class Bank(Base):
     )
 
 
-engine = postgres_session_factory.engine
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
-
 external_banks = config["EXTERNAL_BANKS"]
 bank_of_tomorrow = Bank(code="0000000002", name="Bank of Tomorrow", url="localhost")
 
-with postgres_session_factory.Session(expire_on_commit=False) as session:
-    for bank in external_banks:
-        session.add(Bank(code=bank["code"], name=bank["name"], url=bank["url"]))
-    session.add(bank_of_tomorrow)
-    session.commit()
+
+def init_db(engine):
+    # Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
+
+    with sessionmaker(bind=engine)(expire_on_commit=False) as session:
+        if len(session.query(Bank).all()) > 0:
+            return
+        for bank in external_banks:
+            session.add(Bank(code=bank["code"], name=bank["name"], url=bank["url"]))
+        session.add(bank_of_tomorrow)
+        session.commit()

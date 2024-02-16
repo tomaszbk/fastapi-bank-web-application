@@ -9,6 +9,8 @@ from loguru import logger
 from app.api.routes.auth_routes import router as security_router
 from app.api.routes.dashboard_routes import router as dashboard_router
 from app.api.routes.home_routes import router as home_router
+from app.infrastructure.engine import postgres_session_factory
+from app.infrastructure.models import init_db
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="app/api/static"), name="static")
@@ -46,6 +48,14 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 app.include_router(home_router)
 app.include_router(security_router, prefix="/auth")
 app.include_router(dashboard_router, prefix="/dashboard")
+
+
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Starting up: initializing database")
+    init_db(postgres_session_factory.engine)
+    logger.info("Database initialized")
+
 
 # @app.middleware("http")
 # async def redirect_on_not_found(request: Request, call_next):

@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.infrastructure.external import (
-    get_transaction_number,
+    # get_transaction_number,
     make_external_transaction,
 )
 from app.infrastructure.models import Transaction, User, bank_of_tomorrow
@@ -49,7 +49,9 @@ def get_transactions_chart(user: User, transactions: list[Transaction]):
 
 
 def start_transaction(session: Session, data: TransactionCreate, date) -> None:
-    transaction_number = get_transaction_number()
+    # TODO
+    # transaction_number = get_transaction_number()
+    transaction_number = "1"
     transaction = Transaction(transaction_number, data.amount, date)
     origin_user = get_user_by_cbu(session, data.origin_cbu)
     if not origin_user:
