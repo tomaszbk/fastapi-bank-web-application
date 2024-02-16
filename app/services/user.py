@@ -19,7 +19,7 @@ def create_user(session: Session, form_data: UserCreate):
         username=form_data.username,
         hashed_password=hashed_password,
         email=form_data.email,
-        cuit=form_data.cuit,
+        cuil=form_data.cuil,
         age=form_data.age,
         name=form_data.name,
         surname=form_data.surname,

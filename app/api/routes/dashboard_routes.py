@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Depends, Request
 
 from app.api.routes.auth_routes import (
+    get_current_user_from_header,
     get_current_user_from_url,
 )
 from app.config import templates
 from app.infrastructure.engine import postgres_session_factory
 from app.infrastructure.models import User
-from app.schemas.transaction import TransactionCreate
+from app.schemas.transaction import TransactionCreate, TransactionCreateFront
 from app.schemas.user import UserRead
 from app.services.transaction import create_transaction, get_transactions_chart
 
@@ -44,4 +45,22 @@ async def transaction(
 ):
     """Creates a new transaction."""
     create_transaction(session, transaction)
+    return {"message": "Transaction created successfully"}
+
+
+@router.post("/transaction-front")
+async def transaction_front(
+    transaction: TransactionCreateFront,
+    session=Depends(postgres_session_factory.get_session),
+    user: User = Depends(get_current_user_from_header),
+):
+    """Creates a new transaction."""
+    data = TransactionCreate(
+        origin_cbu=user.bank_account.cbu,
+        amount=transaction.amount,
+        destiny_cbu=transaction.destiny_cbu,
+        motive=transaction.motive,
+        number=transaction.number,
+    )
+    create_transaction(session, data)
     return {"message": "Transaction created successfully"}

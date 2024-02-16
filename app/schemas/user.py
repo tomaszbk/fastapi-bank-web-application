@@ -6,7 +6,7 @@ class UserCreate(BaseModel):
     surname: str
     username: str
     password: str
-    cuit: int
+    cuil: int
     age: int
     email: str
 

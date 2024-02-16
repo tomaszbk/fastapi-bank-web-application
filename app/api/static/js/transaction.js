@@ -16,7 +16,7 @@ function submitForm() {
     formData['motive'] = motive.value;
     window.alert(formData);
     // window.location.href is the current page's URL
-    fetch('/dashboard/transaction', {
+    fetch('/dashboard/transaction-front', {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${bearerToken}`,

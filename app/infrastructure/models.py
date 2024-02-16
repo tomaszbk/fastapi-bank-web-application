@@ -46,7 +46,7 @@ class User(Base):
     surname: M[str] = column(String(50), nullable=False)
     hashed_password: M[str] = column(String(255), nullable=False)
     email: M[str] = column(String(50), nullable=False)
-    cuit: M[int] = column(String(50), nullable=False)
+    cuil: M[int] = column(Integer, nullable=False)
     age: M[int] = column(Integer, nullable=False)
     creation_date: M[datetime] = column(DateTime, nullable=False)
     last_updated: M[datetime] = column(DateTime, nullable=False)
@@ -146,7 +146,7 @@ bank_of_tomorrow = Bank(code="0000000002", name="Bank of Tomorrow", url="localho
 
 
 def init_db(engine):
-    # Base.metadata.drop_all(engine)
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
     with sessionmaker(bind=engine)(expire_on_commit=False) as session:
