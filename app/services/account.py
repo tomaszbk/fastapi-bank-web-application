@@ -22,6 +22,7 @@ def create_bank_account(session: Session, cbu: str | None):
         bank_account.cbu = cbu
     else:
         bank_account.bank = bank_of_tomorrow
+        session.add(bank_account)
         session.flush()
         bank_account.cbu = bank_of_tomorrow.code + str(bank_account.id * 100000000000)
     return bank_account

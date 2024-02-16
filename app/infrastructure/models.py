@@ -38,10 +38,14 @@ class User(Base):
     __tablename__ = "users"
     __table_args__ = (
         PrimaryKeyConstraint("id", name="users_pkey"),
+        ForeignKeyConstraint(
+            ["account_id"], ["bank_accounts.id"], name="bank_accounts_user_id_fkey"
+        ),
         UniqueConstraint("username", name="users_username_key"),
     )
 
     id: M[int] = column(Integer, init=False)
+    account_id: M[int] = column(Integer, nullable=False, init=False)
     username: M[str] = column(String(50), nullable=False)
     name: M[str] = column(String(50), nullable=False)
     surname: M[str] = column(String(50), nullable=False)
@@ -61,18 +65,15 @@ class BankAccount(Base):
     __tablename__ = "bank_accounts"
     __table_args__ = (
         CheckConstraint("balance >= 0", name="bank_accounts_balance_check"),
-        ForeignKeyConstraint(["user_id"], ["users.id"], name="bank_accounts_user_id_fkey"),
         ForeignKeyConstraint(["bank_id"], ["banks.id"], name="bank_accounts_bank_id_fkey"),
         PrimaryKeyConstraint("id", name="bank_accounts_pkey"),
-        UniqueConstraint("user_id", name="bank_accounts_user_id_key"),
     )
 
     id: M[int] = column(Integer, init=False)
-    cbu: M[str] = column(String(22), nullable=False, init=False)
-    user_id: M[int] = column(Integer, nullable=False, init=False)
+    bank_id: M[int] = column(Integer, nullable=False, init=False)
+    cbu: M[str] = column(String(22), nullable=True, init=False)
     balance: M[float] = column(Double(53))
     creation_date: M[datetime] = column(DateTime, nullable=False)
-    bank_id: M[int] = column(Integer, nullable=False, init=False)
     bank: M["Bank"] = relationship("Bank", back_populates="accounts", init=False)
     user: M["User"] = relationship("User", back_populates="bank_account", init=False)
     origin_transactions: M[List["Transaction"]] = relationship(
@@ -152,7 +153,7 @@ Base.metadata.create_all(engine)
 external_banks = config["EXTERNAL_BANKS"]
 bank_of_tomorrow = Bank(code="0000000002", name="Bank of Tomorrow", url="localhost")
 
-with postgres_session_factory.Session() as session:
+with postgres_session_factory.Session(expire_on_commit=False) as session:
     for bank in external_banks:
         session.add(Bank(code=bank["code"], name=bank["name"], url=bank["url"]))
     session.add(bank_of_tomorrow)

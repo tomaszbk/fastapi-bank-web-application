@@ -29,7 +29,6 @@ function submitForm() {
                 window.location.href = '/login';
             }else {
                 // Handle other responses (e.g., errors)
-                window.alert(data.detail);
                 console.log(response);
                 console.error('Error:', response.status);
                 throw new Error('Request failed with status ' + response.status);
