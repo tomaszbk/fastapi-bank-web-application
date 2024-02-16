@@ -3,8 +3,8 @@ from fastapi import APIRouter, Request, Depends
 from app.api.routes.auth_routes import (
     get_current_user_from_url,
 )
-from app.schemas.user_schemas import UserRead
-from app.schemas.transaction_schemas import TransactionCreate
+from app.schemas.user import UserRead
+from app.schemas.transaction import TransactionCreate
 
 from app.services.transaction import create_transaction, get_transactions_chart
 

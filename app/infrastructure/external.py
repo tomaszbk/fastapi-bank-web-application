@@ -15,7 +15,10 @@ def get_transaction_number() -> str:
 
 
 def make_external_transaction(
-    transaction: Transaction, destiny_account: BankAccount, amount: float, motive: str | None
+    transaction: Transaction,
+    destiny_account: BankAccount,
+    amount: float,
+    motive: str | None,
 ) -> None:
     """Sends a transaction to an external bank"""
 

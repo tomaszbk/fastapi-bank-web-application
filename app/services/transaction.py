@@ -1,8 +1,11 @@
 from app.infrastructure.models import User, Transaction, bank_of_tomorrow
-from app.infrastructure.external import get_transaction_number, make_external_transaction
+from app.infrastructure.external import (
+    get_transaction_number,
+    make_external_transaction,
+)
 from app.services.user import get_user_by_cbu
 from app.services.account import handle_external_account, get_bank_account_by_cbu
-from app.schemas.transaction_schemas import TransactionCreate
+from app.schemas.transaction import TransactionCreate
 
 from sqlalchemy.orm import Session
 
@@ -32,7 +35,11 @@ def get_transactions_chart(user: User, transactions: list[Transaction]):
         ),
         strict=True,
     )
-    plt.bar(range(len(dates)), amounts, tick_label=[date.strftime("%Y-%m-%d") for date in dates])
+    plt.bar(
+        range(len(dates)),
+        amounts,
+        tick_label=[date.strftime("%Y-%m-%d") for date in dates],
+    )
     plt.xlabel("Date")
     plt.ylabel("Amount")
     plt.title("Transaction Chart")

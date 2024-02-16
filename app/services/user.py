@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 
 from app.infrastructure.models import User, BankAccount, bank_of_tomorrow
-from app.schemas.user_schemas import UserCreate
+from app.schemas.user import UserCreate
 from app.services.auth import auth
 from app.services.account import create_bank_account
 
