@@ -153,6 +153,6 @@ bank_of_tomorrow = Bank(code="0000000002", name="Bank of Tomorrow", url="localho
 
 with postgres_session_factory.Session() as session:
     for bank in external_banks:
-        session.add(Bank(code=bank["code"], name=external_banks["name"], url=external_banks["url"]))
+        session.add(Bank(code=bank["code"], name=bank["name"], url=bank["url"]))
     session.add(bank_of_tomorrow)
     session.commit()
