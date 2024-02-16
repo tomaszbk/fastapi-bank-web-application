@@ -1,15 +1,14 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.requests import Request
-from loguru import logger
+from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from jinja2 import TemplateNotFound
 from jose import ExpiredSignatureError
+from loguru import logger
 
-from app.api.routes.home_routes import router as home_router
 from app.api.routes.auth_routes import router as security_router
 from app.api.routes.dashboard_routes import router as dashboard_router
-
+from app.api.routes.home_routes import router as home_router
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="app/api/static"), name="static")

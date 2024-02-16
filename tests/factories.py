@@ -1,10 +1,10 @@
 import random
 from datetime import datetime
 
-from app.infrastructure.models import User, BankAccount
+from app.infrastructure.models import BankAccount, User
+from app.schemas.transaction import TransactionCreate
 from app.services.auth import auth
 from app.services.transaction import create_transaction
-from app.schemas.transaction import TransactionCreate
 
 
 def generate_numbers():

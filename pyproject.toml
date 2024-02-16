@@ -34,6 +34,9 @@ lint.select = [
     "F",  # pyflakes
     "C",  # flake8-comprehensions
     "B",  # flake8-bugbear
+    "I",
+    "SIM",
+    "UP"
 ]
 
 line-length = 100

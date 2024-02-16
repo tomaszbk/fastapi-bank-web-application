@@ -1,16 +1,14 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Depends, Request
 
 from app.api.routes.auth_routes import (
     get_current_user_from_url,
 )
-from app.schemas.user import UserRead
-from app.schemas.transaction import TransactionCreate
-
-from app.services.transaction import create_transaction, get_transactions_chart
-
+from app.config import templates
 from app.infrastructure.engine import postgres_session_factory
 from app.infrastructure.models import User
-from app.config import templates
+from app.schemas.transaction import TransactionCreate
+from app.schemas.user import UserRead
+from app.services.transaction import create_transaction, get_transactions_chart
 
 router = APIRouter()
 

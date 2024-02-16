@@ -1,6 +1,6 @@
+from loguru import logger
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm.session import sessionmaker
-from loguru import logger
 
 from app.config import get_postgres_uri
 

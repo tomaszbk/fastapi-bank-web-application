@@ -1,11 +1,11 @@
-from sqlalchemy.orm import Session
-
 from datetime import datetime
 
-from app.infrastructure.models import User, BankAccount, bank_of_tomorrow
+from sqlalchemy.orm import Session
+
+from app.infrastructure.models import BankAccount, User, bank_of_tomorrow
 from app.schemas.user import UserCreate
-from app.services.auth import auth
 from app.services.account import create_bank_account
+from app.services.auth import auth
 
 
 def user_already_exists(session: Session, username: str):

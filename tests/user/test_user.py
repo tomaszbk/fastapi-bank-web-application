@@ -1,6 +1,6 @@
 def test_user_registration(session):
-    from app.services.user import user_already_exists, create_user
     from app.schemas.user import UserCreate
+    from app.services.user import create_user, user_already_exists
 
     form_data = UserCreate(
         username="test_username",

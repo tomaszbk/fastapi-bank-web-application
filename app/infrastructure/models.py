@@ -1,23 +1,30 @@
-from sqlalchemy import (
-    CheckConstraint,
-    Integer,
-    String,
-    PrimaryKeyConstraint,
-    UniqueConstraint,
-)
-from sqlalchemy import DateTime, Double, ForeignKeyConstraint
-from sqlalchemy.orm import (
-    DeclarativeBase,
-    mapped_column as column,
-    Mapped as M,
-    MappedAsDataclass,
-    relationship,
-)
 from datetime import datetime
 from typing import List
 
-from app.infrastructure.engine import postgres_session_factory
+from sqlalchemy import (
+    CheckConstraint,
+    DateTime,
+    Double,
+    ForeignKeyConstraint,
+    Integer,
+    PrimaryKeyConstraint,
+    String,
+    UniqueConstraint,
+)
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    MappedAsDataclass,
+    relationship,
+)
+from sqlalchemy.orm import (
+    Mapped as M,
+)
+from sqlalchemy.orm import (
+    mapped_column as column,
+)
+
 from app.config import config
+from app.infrastructure.engine import postgres_session_factory
 
 
 class Base(MappedAsDataclass, DeclarativeBase):

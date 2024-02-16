@@ -1,10 +1,9 @@
-from sqlalchemy.orm import Session
-
 from datetime import datetime
 
-from app.infrastructure.models import BankAccount, Bank, bank_of_tomorrow
+from sqlalchemy.orm import Session
 
 from app.config import config
+from app.infrastructure.models import Bank, BankAccount, bank_of_tomorrow
 
 
 def get_bank_account_by_cbu(session: Session, cbu: str):

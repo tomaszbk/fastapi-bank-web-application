@@ -1,6 +1,7 @@
-import os
-from dotenv import load_dotenv
 import json
+import os
+
+from dotenv import load_dotenv
 from fastapi.templating import Jinja2Templates
 
 load_dotenv()

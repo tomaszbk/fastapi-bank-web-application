@@ -1,8 +1,7 @@
 import requests
 
-from app.infrastructure.models import BankAccount, Transaction
-
 from app.config import config
+from app.infrastructure.models import BankAccount, Transaction
 
 
 def get_transaction_number() -> str:

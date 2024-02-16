@@ -1,17 +1,16 @@
-from fastapi import APIRouter, HTTPException, status, Depends
+from datetime import timedelta
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from loguru import logger
-from typing import Annotated
-from datetime import timedelta
-
-from app.api.schemas.user_schemas import UserCreate
-from app.api.schemas.auth_schemas import Token
-from app.services.auth import auth
-from app.services.user import user_already_exists, create_user
 
 from app.infrastructure.engine import postgres_session_factory
-
+from app.schemas.auth import Token
+from app.schemas.user import UserCreate
+from app.services.auth import auth
+from app.services.user import create_user, user_already_exists
 
 router = APIRouter()
 

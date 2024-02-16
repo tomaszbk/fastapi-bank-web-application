@@ -1,9 +1,10 @@
 def test_create_transaction(session):
-    from tests.factories import user_factory
-    from app.services.transaction import create_transaction
+    from datetime import datetime
+
     from app.infrastructure.models import BankAccount
     from app.schemas.transaction import TransactionCreate
-    from datetime import datetime
+    from app.services.transaction import create_transaction
+    from tests.factories import user_factory
 
     user1 = user_factory()
     user1.bank_account = BankAccount(balance=8000, creation_date=datetime.now())

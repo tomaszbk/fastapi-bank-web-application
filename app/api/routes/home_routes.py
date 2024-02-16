@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request
 from loguru import logger
+
 from app.config import templates
 
 router = APIRouter()

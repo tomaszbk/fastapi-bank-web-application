@@ -1,20 +1,19 @@
-from app.infrastructure.models import User, Transaction, bank_of_tomorrow
+import base64
+from datetime import datetime
+from io import BytesIO
+
+from matplotlib import pyplot as plt
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
 from app.infrastructure.external import (
     get_transaction_number,
     make_external_transaction,
 )
-from app.services.user import get_user_by_cbu
-from app.services.account import handle_external_account, get_bank_account_by_cbu
+from app.infrastructure.models import Transaction, User, bank_of_tomorrow
 from app.schemas.transaction import TransactionCreate
-
-from sqlalchemy.orm import Session
-
-from datetime import datetime
-from sqlalchemy.exc import IntegrityError
-from matplotlib import pyplot as plt
-
-from io import BytesIO
-import base64
+from app.services.account import get_bank_account_by_cbu, handle_external_account
+from app.services.user import get_user_by_cbu
 
 
 def create_transaction(session: Session, data: TransactionCreate) -> None:
