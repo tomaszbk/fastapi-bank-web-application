@@ -24,7 +24,7 @@ def user_factory() -> User:
         username=username,
         name=f"{username}_name",
         surname=f"{username}_surname",
-        cuit=random.randint(100000000, 999999999),
+        cuil=random.randint(100000000, 999999999),
         age=random.randint(18, 99),
         email=f"{username}@example.com",
         hashed_password=auth.hash_password("test123"),
@@ -44,7 +44,9 @@ def random_transactions_generator(session, iterations: int, users: list[User]) -
             user2 = random.choice(users)
             amount = random.randint(100, 10000)
             data = TransactionCreate(
-                origin_cbu=user1.bank_account.cbu, destiny_cbu=user2.bank_account.cbu, amount=amount
+                origin_cbu=user1.bank_account.cbu,
+                destination_cbu=user2.bank_account.cbu,
+                amount=amount,
             )
             create_transaction(session, data)
         except Exception as ex:

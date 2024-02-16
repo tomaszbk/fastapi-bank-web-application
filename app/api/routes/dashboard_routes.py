@@ -18,7 +18,9 @@ router = APIRouter()
 async def dashboard_view(request: Request, user: User = Depends(get_current_user_from_url)):
     """Template includes chart of user's balance over time,
     and a table of user's recent transactions."""
-    transactions = user.bank_account.origin_transactions + user.bank_account.destiny_transactions
+    transactions = (
+        user.bank_account.origin_transactions + user.bank_account.destination_transactions
+    )
     transactions.sort(key=lambda transaction: transaction.date, reverse=True)
     image = get_transactions_chart(user, transactions)
     return templates.TemplateResponse(
@@ -58,7 +60,7 @@ async def transaction_front(
     data = TransactionCreate(
         origin_cbu=user.bank_account.cbu,
         amount=transaction.amount,
-        destiny_cbu=transaction.destiny_cbu,
+        destination_cbu=transaction.destination_cbu,
         motive=transaction.motive,
         number=transaction.number,
     )

@@ -63,32 +63,32 @@ def start_transaction(session: Session, data: TransactionCreate, date) -> None:
     except IntegrityError as e:
         # implicit rollback
         raise Exception(f"User doesn't have enough money: {e}") from e
-    if data.destiny_cbu[:10] == bank_of_tomorrow.code:
-        destiny_user = get_user_by_cbu(session, data.destiny_cbu)
-        if not destiny_user:
-            raise Exception("No user found with destiny cbu")
-        destiny_user.bank_account.balance += data.amount
+    if data.destination_cbu[:10] == bank_of_tomorrow.code:
+        destination_user = get_user_by_cbu(session, data.destination_cbu)
+        if not destination_user:
+            raise Exception("No user found with destination cbu")
+        destination_user.bank_account.balance += data.amount
         transaction.origin_account = origin_user.bank_account
-        transaction.destination_account = destiny_user.bank_account
+        transaction.destination_account = destination_user.bank_account
         session.add(transaction)
         session.commit()
         return
     else:
-        destiny_account = handle_external_account(session, data.destiny_cbu)
-        make_external_transaction(transaction, destiny_account, data.amount, data.motive)
+        destination_account = handle_external_account(session, data.destination_cbu)
+        make_external_transaction(transaction, destination_account, data.amount, data.motive)
 
 
 def handle_incoming_transaction(session: Session, data: TransactionCreate, date: datetime) -> None:
     if data.number is None:
         raise Exception("Number is required for incoming transactions")
-    destiny_account = get_bank_account_by_cbu(session, data.destiny_cbu)
-    if not destiny_account:
-        raise Exception("No user found with destiny cbu")
+    destination_account = get_bank_account_by_cbu(session, data.destination_cbu)
+    if not destination_account:
+        raise Exception("No user found with destination cbu")
 
     origin_account = handle_external_account(session, data.origin_cbu)
     transaction = Transaction(data.number, data.amount, date)
-    destiny_account.balance += data.amount
-    transaction.destination_account = destiny_account
+    destination_account.balance += data.amount
+    transaction.destination_account = destination_account
     transaction.origin_account = origin_account
     session.add(transaction)
     session.commit()

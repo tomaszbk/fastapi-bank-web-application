@@ -7,7 +7,7 @@ def test_user_registration(session):
         password="test",
         name="test",
         surname="test",
-        cuit=20123456782,
+        cuil=20123456782,
         age=18,
         email="test@hotmail.com",
     )

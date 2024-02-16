@@ -15,18 +15,18 @@ def get_transaction_number() -> str:
 
 def make_external_transaction(
     transaction: Transaction,
-    destiny_account: BankAccount,
+    destination_account: BankAccount,
     amount: float,
     motive: str | None,
 ) -> None:
     """Sends a transaction to an external bank"""
 
     response = requests.post(
-        destiny_account.bank.url + "/transaction",
+        destination_account.bank.url + "/transaction",
         json={
             "number": transaction.number,
             "origin_cbu": transaction.origin_account.cbu,
-            "destiny_cbu": destiny_account.cbu,
+            "destination_cbu": destination_account.cbu,
             "amount": amount,
             "motive": motive,
         },

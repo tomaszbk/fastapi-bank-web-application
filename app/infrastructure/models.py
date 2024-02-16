@@ -78,7 +78,7 @@ class BankAccount(Base):
         back_populates="origin_account",
         init=False,
     )
-    destiny_transactions: M[List["Transaction"]] = relationship(
+    destination_transactions: M[List["Transaction"]] = relationship(
         "Transaction",
         uselist=True,
         foreign_keys="[Transaction.destination_account_id]",
@@ -119,7 +119,7 @@ class Transaction(Base):
     destination_account: M["BankAccount"] = relationship(
         "BankAccount",
         foreign_keys=[destination_account_id],
-        back_populates="destiny_transactions",
+        back_populates="destination_transactions",
         init=False,
     )
 
