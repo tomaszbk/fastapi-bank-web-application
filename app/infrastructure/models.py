@@ -146,6 +146,7 @@ class Bank(Base):
 
 
 engine = postgres_session_factory.engine
+Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 external_banks = config["EXTERNAL_BANKS"]
