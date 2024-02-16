@@ -146,6 +146,8 @@ bank_of_tomorrow = Bank(code="0000000002", name="Bank of Tomorrow", url="localho
 
 
 def init_db(engine):
+    from app.services.account import create_bank_account
+
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
@@ -154,5 +156,9 @@ def init_db(engine):
             return
         for bank in external_banks:
             session.add(Bank(code=bank["code"], name=bank["name"], url=bank["url"]))
+        account1 = create_bank_account(session, "0000000002000000000001")
+        account2 = create_bank_account(session, "0000000002000000000002")
+        session.add(account1)
+        session.add(account2)
         session.add(bank_of_tomorrow)
         session.commit()
