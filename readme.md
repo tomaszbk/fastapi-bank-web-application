@@ -74,13 +74,6 @@ Exporting dependencies to requirements.txt:
 ```poetry export --without-hashes --format=requirements.txt > requirements.txt```
 
 \
-Migrating changes to database:
-
-```alembic revision -m "create account table"```
-
-```alembic upgrade head```
-
-\
 Initializing pre-commit:
 
 ```poetry run pre-commit install && poetry run pre-commit install -t pre-push```

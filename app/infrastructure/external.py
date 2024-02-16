@@ -23,7 +23,7 @@ def make_external_transaction(
     """Sends a transaction to an external bank"""
 
     response = requests.post(
-        config["BANK_URL"] + "/transaction",
+        destiny_account.bank.url + "/transaction",
         json={
             "number": transaction.number,
             "origin_cbu": transaction.origin_account.cbu,

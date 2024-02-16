@@ -24,6 +24,7 @@ python-dotenv = "^1.0.0"
 matplotlib = "^3.8.1"
 pre-commit = "^3.6.0"
 ruff = "^0.2.1"
+requests = "^2.31.0"
 
 
 [tool.ruff]
