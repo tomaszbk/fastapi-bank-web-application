@@ -13,7 +13,6 @@ from app.infrastructure.external import (
 from app.infrastructure.models import Transaction, User, bank_of_tomorrow
 from app.schemas.transaction import TransactionCreate
 from app.services.account import get_bank_account_by_cbu, handle_external_account
-from app.services.user import get_user_by_cbu
 
 
 def create_transaction(session: Session, data: TransactionCreate) -> None:
@@ -53,23 +52,23 @@ def start_transaction(session: Session, data: TransactionCreate, date) -> None:
     # transaction_number = get_transaction_number()
     transaction_number = "1"
     transaction = Transaction(transaction_number, data.amount, date)
-    origin_user = get_user_by_cbu(session, data.origin_cbu)
-    if not origin_user:
+    origin_account = get_bank_account_by_cbu(session, data.origin_cbu)
+    if not origin_account:
         raise Exception("No user found with origin cbu")
-    origin_user.bank_account.balance -= data.amount
-    session.add(origin_user.bank_account)
+    origin_account.balance -= data.amount
+    session.add(origin_account)
     try:
         session.flush()
     except IntegrityError as e:
         # implicit rollback
         raise Exception(f"User doesn't have enough money: {e}") from e
     if data.destination_cbu[:10] == bank_of_tomorrow.code:
-        destination_user = get_user_by_cbu(session, data.destination_cbu)
-        if not destination_user:
+        destination_account = get_bank_account_by_cbu(session, data.destination_cbu)
+        if not destination_account:
             raise Exception("No user found with destination cbu")
-        destination_user.bank_account.balance += data.amount
-        transaction.origin_account = origin_user.bank_account
-        transaction.destination_account = destination_user.bank_account
+        destination_account.balance += data.amount
+        transaction.origin_account = origin_account
+        transaction.destination_account = destination_account
         session.add(transaction)
         session.commit()
         return
@@ -92,6 +91,3 @@ def handle_incoming_transaction(session: Session, data: TransactionCreate, date:
     transaction.origin_account = origin_account
     session.add(transaction)
     session.commit()
-    origin_user = get_user_by_cbu(session, data.origin_cbu)
-    if not origin_user:
-        raise Exception("No user found with origin cbu")
