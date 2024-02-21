@@ -56,8 +56,8 @@ def start_transaction(session: Session, data: TransactionCreate, date) -> None:
     if not origin_account:
         raise Exception("No account found with origin cbu")
     origin_account.balance -= data.amount
-    transaction.origin_account = origin_account
     session.add(origin_account)
+    transaction.origin_account = origin_account
     try:
         session.flush()
     except IntegrityError as e:
