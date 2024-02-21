@@ -54,8 +54,9 @@ def start_transaction(session: Session, data: TransactionCreate, date) -> None:
     transaction = Transaction(transaction_number, data.amount, date)
     origin_account = get_bank_account_by_cbu(session, data.origin_cbu)
     if not origin_account:
-        raise Exception("No user found with origin cbu")
+        raise Exception("No account found with origin cbu")
     origin_account.balance -= data.amount
+    transaction.origin_account = origin_account
     session.add(origin_account)
     try:
         session.flush()
@@ -65,9 +66,8 @@ def start_transaction(session: Session, data: TransactionCreate, date) -> None:
     if data.destination_cbu[:10] == bank_of_tomorrow.code:
         destination_account = get_bank_account_by_cbu(session, data.destination_cbu)
         if not destination_account:
-            raise Exception("No user found with destination cbu")
+            raise Exception("No account found with destination cbu")
         destination_account.balance += data.amount
-        transaction.origin_account = origin_account
         transaction.destination_account = destination_account
         session.add(transaction)
         session.commit()
@@ -75,6 +75,8 @@ def start_transaction(session: Session, data: TransactionCreate, date) -> None:
     else:
         destination_account = handle_external_account(session, data.destination_cbu)
         make_external_transaction(transaction, destination_account, data.amount, data.motive)
+        session.add(transaction)
+        session.commit()
 
 
 def handle_incoming_transaction(session: Session, data: TransactionCreate, date: datetime) -> None:

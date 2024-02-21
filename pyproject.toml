@@ -28,24 +28,23 @@ requests = "^2.31.0"
 
 [tool.ruff]
 lint.select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "C",   # flake8-comprehensions
+    "B",   # flake8-bugbear
     "I",
     "SIM",
-    "UP"
+    "UP",
 ]
 
 line-length = 100
 
 lint.ignore = [
-    "E501",  # line too long, handled by format
-    "B008",  # do not perform function calls in argument defaults
-    # "C901",  # complexity
+    "B008", # do not perform function calls in argument defaults
+    "C901",  # complexity
 ]
-fix=true
+fix = true
 show-fixes = true
 
 
@@ -76,10 +75,5 @@ disable = """
 """
 
 [tool.pytest.ini_options]
-python_files ="test*.py"
-testpaths = [
-    "tests"
-]
-
-[tool.isort]
-profile = "black"
+python_files = "test*.py"
+testpaths = ["tests"]

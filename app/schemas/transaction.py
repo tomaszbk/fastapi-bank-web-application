@@ -8,6 +8,8 @@ class TransactionCreate(BaseModel):
     destination_cbu: str
     motive: str | None = None
     number: str | None = None
+    origin_cuil: int | None = None
+    destination_cuil: int | None = None
 
     @field_validator("origin_cbu", "destination_cbu")
     def cbu_len_must_be_valid(cls, cbu: str):
