@@ -38,11 +38,11 @@ def make_external_transaction(
         raise Exception(f"Error making external transaction: {response.text}")
 
 
-def validate_identity():
+def get_jwt_from_code(authorization_code: str) -> str:
     payload = {
         "clientId": "e9df95af-bfb9-4757-a5c8-ce02b44ceaeb",
         "clientSecret": "123",
-        "authorizationCode ": "2tzfsgApkPrIB8MAqtjGOw6Bjyl83MIrySXcMyaU",
+        "authorizationCode": f"{authorization_code}",
     }
     headers = {"Accept": "application/json", "Content-Type": "application/json"}
     json_payload = json.dumps(payload)
@@ -52,4 +52,4 @@ def validate_identity():
         headers=headers,
         verify=False,
     )
-    return response.json()
+    return response.json()["datos"]

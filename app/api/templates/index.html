@@ -71,3 +71,13 @@
     </div>
 </div>
 {% endblock %}
+
+    {% block additional_script %}
+        {% if jwt is not none %}
+            <script>
+                let jwt = "{{ jwt }}"
+                localStorage.setItem('access_token', "{{ jwt }}")
+                access_token = "{{ jwt }}"
+            </script> 
+        {% endif %}
+    {% endblock %}

@@ -2,13 +2,18 @@ from fastapi import APIRouter, Request
 from loguru import logger
 
 from app.config import templates
+from app.services.auth import auth
 
 router = APIRouter()
 
 
 @router.get("/")
-async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+async def index(request: Request, queryParametro: str | None = None):
+    logger.info(queryParametro)
+    code = queryParametro
+    jwt = await auth.handle_external_login(code) if code else None
+
+    return templates.TemplateResponse("index.html", {"request": request, "jwt": jwt})
 
 
 @router.get("/not_found")

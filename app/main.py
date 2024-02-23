@@ -3,7 +3,7 @@ from fastapi.requests import Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jinja2 import TemplateNotFound
-from jose import ExpiredSignatureError
+from jwt import ExpiredSignatureError
 from loguru import logger
 
 from app.api.routes.auth_routes import router as security_router

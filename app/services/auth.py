@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
 
+import jwt
 from fastapi.security import OAuth2PasswordBearer
-from jose import jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
+from app.infrastructure.external import get_jwt_from_code
 from app.infrastructure.models import User
 
 
@@ -50,6 +51,20 @@ class Auth:
         if user is None:
             raise Exception("User not found")
         return user
+
+    async def handle_external_login(self, code: str):
+        from app.infrastructure.engine import postgres_session_factory
+
+        token = get_jwt_from_code(code)
+        if not token:
+            return None
+        next(postgres_session_factory.get_session())
+        payload = jwt.decode(
+            token,
+            "9BJ0WxXATSJ6KtiSHhglSd3kgc6j5kXLp8sx5hm5KN2Y8H1uygVrPAJGBqPEIgRpMHG8yMFyKh2hXLSnZNLtZ+7c+fMIUYJYARS8f4yxF3CpkMtVW4wJ5Sbg99vIyi8Hi/134QuwU9ghYKiGgaYEvsQo5P9R+y/MiJrclETu5mkUdazs0Sua5+WdnsmJqykVxrfHtgvlavtmhF2B8zUWWOb8zdPgWqzxULt4RHWIasdf6GxzG+XGK+6jyNfb4DpUJQBlHssVGgflNEukoYefTcqx865JeGMeIBJzmxceiD2PrEnDsHHYk8w5/2dAWbnf8Pk19T3CXDDd73MLiPR5xQ==",
+            algorithms=["RS256"],
+        )
+        payload.get("sub")
 
 
 auth: Auth = Auth()

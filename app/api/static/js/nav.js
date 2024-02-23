@@ -13,7 +13,7 @@ let nav_options = document.getElementById('nav-options');
 // check if user is null
 console.log(username== null);
 console.log(username);
-if (username === null) {
+if (access_token === null) {
     login_button = document.createElement('div');
 
     // Set the HTML content using template literals
