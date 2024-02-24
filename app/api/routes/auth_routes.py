@@ -1,17 +1,16 @@
-from fastapi import APIRouter, HTTPException, status, Depends
+from datetime import timedelta
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from loguru import logger
-from typing import Annotated
-from datetime import timedelta
 
-from app.api.schemas.user_schemas import UserCreate
 from app.api.schemas.auth_schemas import Token
+from app.api.schemas.user_schemas import UserCreate
+from app.infrastructure.database import postgres_session_factory
 from app.services.auth_service import auth
-from app.services.user_service import user_already_exists, create_user
-
-from app.infrastructure.engine import postgres_session_factory
-
+from app.services.user_service import create_user, user_already_exists
 
 router = APIRouter()
 
@@ -50,7 +49,8 @@ async def register(form_data: UserCreate, session=Depends(postgres_session_facto
     if user_already_exists(session, form_data.username):
         logger.warning("User with this email already exist")
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="User with this email already exists"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User with this email already exists",
         )
     user = create_user(session, form_data)
 

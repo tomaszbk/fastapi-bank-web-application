@@ -1,6 +1,5 @@
-from sqlalchemy.engine.create import create_engine
-from sqlalchemy.orm.session import sessionmaker
 from loguru import logger
+from sqlmodel import Session, create_engine
 
 from app.config import get_postgres_uri
 
@@ -8,7 +7,7 @@ from app.config import get_postgres_uri
 class PostgresSessionFactory:
     def __init__(self) -> None:
         self.engine = create_engine(get_postgres_uri())
-        self.Session = sessionmaker(bind=self.engine)
+        self.Session = Session(self.engine)
 
     def get_session(self):
         session = self.Session()

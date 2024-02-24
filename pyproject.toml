@@ -9,7 +9,6 @@ readme = "README.md"
 python = "^3.11"
 fastapi = "^0.103.1"
 loguru = "^0.7.2"
-python-jose = "^3.3.0"
 passlib = "^1.7.4"
 jinja2 = "^3.1.2"
 uvicorn = "^0.23.2"
@@ -18,16 +17,9 @@ bcrypt = "^4.0.1"
 sqlalchemy = "^2.0.21"
 pytest = "^7.4.2"
 psycopg2 = "^2.9.7"
-sqlacodegen-v2 = "^0.1.4"
 alembic = "^1.12.0"
 python-dotenv = "^1.0.0"
 matplotlib = "^3.8.1"
-pre-commit = "^3.6.0"
-
-[tool.black]
-line-length = 100
-target_version = ['py311']
-include = '\.pyi?$'
 
 [tool.ruff]
 select = [
@@ -41,9 +33,10 @@ select = [
 ignore = [
     "E501",  # line too long, handled by black
     "B008",  # do not perform function calls in argument defaults
-    # "C901",  # complexity
+    "C901",  # complexity
 ]
 fixable = ["ALL"]
+line-length = 100
 unfixable = []
 show-fixes = true
 target-version = "py311"
@@ -64,22 +57,9 @@ ignore_missing_imports = true
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.pylint.'MESSAGES CONTROL']
-max-line-length = 100
-disable = """
-    too-many-arguments,
-    not-callable,
-    missing-function-docstring,
-    missing-module-docstring,
-    fixme,
-    missing-class-docstring
-"""
 
 [tool.pytest.ini_options]
 python_files ="test*.py"
 testpaths = [
     "tests"
 ]
-
-[tool.isort]
-profile = "black"

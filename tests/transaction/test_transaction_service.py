@@ -1,15 +1,14 @@
-from datetime import datetime
-
-
 def test_create_transaction(session):
-    from tests.factories import user_factory
+    from datetime import datetime
+
+    from app.infrastructure.models import Account
     from app.services.transaction_service import create_transaction
-    from app.infrastructure.models import BankAccount
+    from tests.factories import user_factory
 
     user1 = user_factory()
-    user1.bank_account = BankAccount(balance=8000, creation_date=datetime.now())
+    user1.bank_account = Account(balance=8000, creation_date=datetime.now())
     user2 = user_factory()
-    user2.bank_account = BankAccount(balance=1000, creation_date=datetime.now())
+    user2.bank_account = Account(balance=1000, creation_date=datetime.now())
     amount = 5000
     create_transaction(session, user1, amount, user2)
     assert user1.bank_account.balance == 3000, "origin user balance error"

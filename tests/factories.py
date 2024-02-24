@@ -1,7 +1,7 @@
 import random
 from datetime import datetime
 
-from app.infrastructure.models import User, BankAccount
+from app.infrastructure.models import Account, User
 from app.services.auth_service import auth
 from app.services.transaction_service import create_transaction
 
@@ -32,8 +32,8 @@ def user_factory() -> User:
     )
 
 
-def bank_account_factory() -> BankAccount:
-    return BankAccount(balance=random.randint(1000, 10000), creation_date=datetime.now())
+def bank_account_factory() -> Account:
+    return Account(balance=random.randint(1000, 10000), creation_date=datetime.now())
 
 
 def random_transactions_generator(session, iterations: int, users: list[User]) -> None:

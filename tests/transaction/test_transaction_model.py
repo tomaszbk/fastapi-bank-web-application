@@ -1,13 +1,13 @@
-from datetime import datetime
-from sqlalchemy.exc import IntegrityError
-
-
 def test_negative_balance_raises_error(session):
-    from app.infrastructure.models import BankAccount
+    from datetime import datetime
+
+    from sqlalchemy.exc import IntegrityError
+
+    from app.infrastructure.models import Account
 
     # create a bank account with initial balance of 20000
     now = datetime.now()
-    account = BankAccount(20000, now)
+    account = Account(balance=20000, creation_date=now)
 
     try:
         account.balance -= 100000

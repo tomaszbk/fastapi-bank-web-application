@@ -1,102 +1,69 @@
-from sqlalchemy import CheckConstraint, Integer, String, PrimaryKeyConstraint, UniqueConstraint
-from sqlalchemy import DateTime, Double, ForeignKeyConstraint
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped, MappedAsDataclass, relationship
-
 from datetime import datetime
-from typing import List
+from typing import Optional
+
+from sqlmodel import (
+    CheckConstraint,
+    Field,
+    Relationship,
+    SQLModel,
+)
 
 
-class Base(MappedAsDataclass, DeclarativeBase):
-    """subclasses will be converted to dataclasses"""
-
-
-# back populates is how the table is represented in the relationed table
-
-
-class User(Base):
+class User(SQLModel, table=True):
     __tablename__ = "users"
-    __table_args__ = (
-        PrimaryKeyConstraint("id", name="users_pkey"),
-        UniqueConstraint("username", name="users_username_key"),
-    )
+    id: Optional[int] = Field(default=None, primary_key=True)
+    username: str = Field(unique=True)
+    name: str
+    surname: str
+    hashed_password: str
+    email: str
+    dni: str
+    age: int
+    creation_date: datetime
+    last_updated: datetime
+    last_login: Optional[datetime] = None
 
-    id: Mapped[int] = mapped_column(Integer, init=False)
-    username: Mapped[str] = mapped_column(String(50), nullable=False)
-    name: Mapped[str] = mapped_column(String(50), nullable=False)
-    surname: Mapped[str] = mapped_column(String(50), nullable=False)
-    hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
-    email: Mapped[str] = mapped_column(String(50), nullable=False)
-    dni: Mapped[int] = mapped_column(String(50), nullable=False)
-    age: Mapped[int] = mapped_column(Integer, nullable=False)
-    creation_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    last_updated: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    last_login: Mapped[datetime] = mapped_column(DateTime, init=False, nullable=True)
-
-    bank_account: Mapped["BankAccount"] = relationship(
-        "BankAccount", uselist=False, back_populates="user", init=False
-    )
+    bank_account: Optional["Account"] = Relationship(back_populates="user")
 
 
-class BankAccount(Base):
-    __tablename__ = "bank_accounts"
-    __table_args__ = (
-        CheckConstraint("balance >= 0", name="bank_accounts_balance_check"),
-        ForeignKeyConstraint(["user_id"], ["users.id"], name="bank_accounts_user_id_fkey"),
-        PrimaryKeyConstraint("id", name="bank_accounts_pkey"),
-        UniqueConstraint("user_id", name="bank_accounts_user_id_key"),
-    )
+class Account(SQLModel, table=True):
+    __tablename__ = "accounts"
+    __table_args__ = (CheckConstraint("balance >= 0", name="accounts_balance_check"),)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(default=None, unique=True, foreign_key="users.id")
 
-    id: Mapped[int] = mapped_column(Integer, init=False)
-    user_id: Mapped[int] = mapped_column(Integer, nullable=False, init=False)
-    balance: Mapped[float] = mapped_column(Double(53), nullable=False)
-    creation_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    balance: float
+    creation_date: datetime
 
-    user: Mapped["User"] = relationship("User", back_populates="bank_account", init=False)
-    origin_transactions: Mapped[List["Transaction"]] = relationship(
-        "Transaction",
-        uselist=True,
-        foreign_keys="[Transaction.origin_account_id]",
+    user: Optional[User] = Relationship(back_populates="bank_account")
+    origin_transactions: list["Transaction"] = Relationship(
         back_populates="origin_account",
-        init=False,
+        sa_relationship_kwargs={"foreign_keys": "Transaction.origin_account_id"},
     )
-    destiny_transactions: Mapped[List["Transaction"]] = relationship(
-        "Transaction",
-        uselist=True,
-        foreign_keys="[Transaction.destination_account_id]",
+    destination_transactions: list["Transaction"] = Relationship(
         back_populates="destination_account",
-        init=False,
+        sa_relationship_kwargs={"foreign_keys": "Transaction.destination_account_id"},
     )
 
 
-class Transaction(Base):
+class Transaction(SQLModel, table=True):
     __tablename__ = "transactions"
-    __table_args__ = (
-        ForeignKeyConstraint(
-            ["destination_account_id"],
-            ["bank_accounts.id"],
-            name="transactions_destination_account_id_fkey",
-        ),
-        ForeignKeyConstraint(
-            ["origin_account_id"], ["bank_accounts.id"], name="transactions_origin_account_id_fkey"
-        ),
-        PrimaryKeyConstraint("id", name="transactions_pkey"),
-    )
 
-    id: Mapped[int] = mapped_column(Integer, init=False)
-    origin_account_id: Mapped[int] = mapped_column(Integer, nullable=False, init=False)
-    destination_account_id: Mapped[int] = mapped_column(Integer, nullable=False, init=False)
-    amount: Mapped[float] = mapped_column(Double(53), nullable=False)
-    transaction_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    origin_account_id: int = Field(default=None, foreign_key="accounts.id")
+    destination_account_id: int = Field(default=None, foreign_key="accounts.id")
 
-    origin_account: Mapped["BankAccount"] = relationship(
-        "BankAccount",
-        foreign_keys=[origin_account_id],
+    amount: float
+    transaction_date: datetime
+
+    origin_account: Optional[Account] = Relationship(
         back_populates="origin_transactions",
-        init=False,
+        sa_relationship_kwargs={"foreign_keys": "Transaction.origin_account_id"},
     )
-    destination_account: Mapped["BankAccount"] = relationship(
-        "BankAccount",
-        foreign_keys=[destination_account_id],
-        back_populates="destiny_transactions",
-        init=False,
+    destination_account: Optional[Account] = Relationship(
+        back_populates="destination_transactions",
+        sa_relationship_kwargs={"foreign_keys": "Transaction.destination_account_id"},
     )
+
+
+metadata = SQLModel.metadata

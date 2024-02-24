@@ -21,20 +21,6 @@ repos:
         args: [ --fix ]
         stages: [commit]
 
-  # Black
-  - repo: https://github.com/psf/black
-    rev: 23.1.0
-    hooks:
-      - id: black
-        stages: [commit]
-
-  # Mypy
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: 'v1.5.1'  
-  #   hooks:
-  #     - id: mypy
-  #       args: [--no-namespace-packages]
-
   # Pytest
   # - repo: local
   #   hooks:

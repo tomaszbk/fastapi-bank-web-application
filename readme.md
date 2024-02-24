@@ -24,7 +24,7 @@ The token will be used by the 3rd party entity, and must be sent together with a
 
 - **Poetry for Dependency Management:** Employing Poetry for managing project dependencies, streamlining the process of package installation and ensuring a consistent development environment.
 
-- **SQLAlchemy as ORM, Sqlacodegen for Database-First Initial Migration:** Leveraging SQLAlchemy as the Object-Relational Mapping (ORM) tool to interact with the database, coupled with Sqlacodegen for the initial migration in a database-first approach.
+- **SQLModel as ORM, Sqlacodegen for Database-First Initial Migration:** Leveraging SQLModel as the Object-Relational Mapping (ORM) tool to interact with the database, coupled with Sqlacodegen for the initial migration in a database-first approach.
 
 - **Alembic for Code to Database Migrations:** Utilizing Alembic for managing and executing database migrations, ensuring smooth transitions and updates to the database schema as the application evolves.
 
