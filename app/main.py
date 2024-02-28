@@ -47,7 +47,7 @@ async def not_found_exception_handler(request: Request, exc: HTTPException):
 
 app.include_router(home_router)
 app.include_router(security_router, prefix="/auth")
-app.include_router(dashboard_router, prefix="/dashboard")
+app.include_router(dashboard_router)
 
 
 @app.on_event("startup")

@@ -14,7 +14,7 @@ from app.services.transaction import create_transaction, get_transactions_chart
 router = APIRouter()
 
 
-@router.get("")
+@router.get("/dashboard")
 async def dashboard_view(request: Request, user: User = Depends(get_current_user_from_url)):
     """Template includes chart of user's balance over time,
     and a table of user's recent transactions."""
@@ -29,13 +29,13 @@ async def dashboard_view(request: Request, user: User = Depends(get_current_user
     )
 
 
-@router.get("/profile")
+@router.get("/dashboard/profile")
 async def profile_view(request: Request, user: UserRead = Depends(get_current_user_from_url)):
     """Template shows User data."""
     return templates.TemplateResponse("profile.html", {"request": request, "user": user})
 
 
-@router.get("/transaction")
+@router.get("/dashboard/transaction")
 async def transaction_view(request: Request, user: UserRead = Depends(get_current_user_from_url)):
     """Template allows to create a new transaction."""
     return templates.TemplateResponse("transaction.html", {"request": request, "user": user})
@@ -50,7 +50,7 @@ async def transaction(
     return {"message": "Transaction created successfully"}
 
 
-@router.post("/transaction-front")
+@router.post("/dashboard/transaction-front")
 async def transaction_front(
     transaction: TransactionCreateFront,
     session=Depends(postgres_session_factory.get_session),
