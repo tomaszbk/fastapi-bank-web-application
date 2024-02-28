@@ -53,18 +53,18 @@ class Auth:
         return user
 
     async def handle_external_login(self, code: str):
-        from app.infrastructure.engine import postgres_session_factory
-
         token = get_jwt_from_code(code)
         if not token:
             return None
-        next(postgres_session_factory.get_session())
-        payload = jwt.decode(
+
+        with open("key.pem", "rb") as f:
+            public_key = f.read()
+        data = jwt.decode(
             token,
-            "9BJ0WxXATSJ6KtiSHhglSd3kgc6j5kXLp8sx5hm5KN2Y8H1uygVrPAJGBqPEIgRpMHG8yMFyKh2hXLSnZNLtZ+7c+fMIUYJYARS8f4yxF3CpkMtVW4wJ5Sbg99vIyi8Hi/134QuwU9ghYKiGgaYEvsQo5P9R+y/MiJrclETu5mkUdazs0Sua5+WdnsmJqykVxrfHtgvlavtmhF2B8zUWWOb8zdPgWqzxULt4RHWIasdf6GxzG+XGK+6jyNfb4DpUJQBlHssVGgflNEukoYefTcqx865JeGMeIBJzmxceiD2PrEnDsHHYk8w5/2dAWbnf8Pk19T3CXDDd73MLiPR5xQ==",
+            public_key,
             algorithms=["RS256"],
         )
-        payload.get("sub")
+        return token, data
 
 
 auth: Auth = Auth()
