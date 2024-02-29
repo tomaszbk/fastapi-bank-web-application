@@ -23,7 +23,7 @@ def create_bank_account(
             raise Exception("Bank not found")
         bank_account.cbu = cbu
     else:
-        bank_account.bank = bank_of_tomorrow
+        bank_account.bank = session.query(Bank).filter_by(code="0000000002").one_or_none()
         session.add(bank_account)
         session.flush()
         bank_account.cbu = bank_of_tomorrow.code + str(bank_account.id * 100000000000)
