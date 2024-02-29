@@ -44,13 +44,33 @@ class Auth:
         return encoded_jwt
 
     async def get_current_active_user(self, session: Session, token: str) -> User:
-        payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
+        try:
+            payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
+        except Exception:
+            with open("key.pem", "rb") as f:
+                public_key = f.read()
 
-        username = payload.get("sub")
-        user = session.query(User).filter(User.username == username).one_or_none()
-        if user is None:
-            raise Exception("User not found")
-        return user
+            payload = jwt.decode(
+                token,
+                public_key,
+                algorithms=["RS256"],
+                options={
+                    "verify_exp": False,  # Skipping expiration date check
+                    "verify_aud": False,
+                },
+            )
+        try:
+            username = payload.get("sub")
+            user = session.query(User).filter(User.username == username).one_or_none()
+            if user is None:
+                raise Exception("User not found")
+            return user
+        except Exception:
+            username = payload["Nombre"] + payload["Apellido"]
+            user = session.query(User).filter(User.username == username).one_or_none()
+            if user is None:
+                raise Exception("User not found")
+            return user
 
     def handle_external_login(self, code: str) -> tuple[str, dict]:
         token = get_jwt_from_code(code)
