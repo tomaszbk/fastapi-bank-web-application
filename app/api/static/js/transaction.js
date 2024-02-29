@@ -12,9 +12,6 @@ function submitForm() {
             formData[element.name] = element.value;
         }
     }
-    motive = document.getElementsByTagName('textarea')[0];
-    formData['motive'] = motive.value;
-    window.alert(formData);
     // window.location.href is the current page's URL
     fetch('/dashboard/transaction-front', {
         method: 'POST',
