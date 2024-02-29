@@ -14,7 +14,7 @@ async def index(request: Request, queryParametro: str | None = None):
     code = queryParametro
     if code:
         session = postgres_session_factory.get_session_no_yield()
-        jwt = await handle_external_user(session, code)
+        jwt = handle_external_user(session, code)
         session.close()
     else:
         jwt = None
