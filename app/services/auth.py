@@ -52,10 +52,10 @@ class Auth:
             raise Exception("User not found")
         return user
 
-    async def handle_external_login(self, code: str):
+    def handle_external_login(self, code: str) -> tuple[str, dict]:
         token = get_jwt_from_code(code)
         if not token:
-            return None
+            raise Exception("Error getting token from Renaper")
 
         with open("key.pem", "rb") as f:
             public_key = f.read()
@@ -63,6 +63,10 @@ class Auth:
             token,
             public_key,
             algorithms=["RS256"],
+            options={
+                "verify_exp": False,  # Skipping expiration date check
+                "verify_aud": False,
+            },
         )
         return token, data
 

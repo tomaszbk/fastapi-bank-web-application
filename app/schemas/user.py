@@ -16,11 +16,11 @@ class UserCreate(BaseModel):
             raise ValueError("Age must be greater than 18 or less than 100")
         return age
 
-    @field_validator("cuil")
-    def cuil_must_be_valid(cls, cuil):
-        if len(str(cuil)) != 11:
-            raise ValueError("cuil must be 8 digits long")
-        return cuil
+    # @field_validator("cuil")
+    # def cuil_must_be_valid(cls, cuil):
+    #     if len(str(cuil)) != 11:
+    #         raise ValueError("cuil must be 11 digits long")
+    #     return cuil
 
     @field_validator("email")
     def email_must_be_valid(cls, email):

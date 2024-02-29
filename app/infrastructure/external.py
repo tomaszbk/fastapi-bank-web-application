@@ -52,4 +52,8 @@ def get_jwt_from_code(authorization_code: str) -> str:
         headers=headers,
         verify=False,
     )
+    if response.status_code != 200:
+        if response.status_code == 400:
+            raise Exception("Codigo Invalido o Expirado")
+        raise Exception(f"Error getting token from Renaper: {response.text}")
     return response.json()["datos"]

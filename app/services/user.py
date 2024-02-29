@@ -42,3 +42,21 @@ def get_user_by_username(session: Session, username: str):
 def get_user_by_cbu(session: Session, cbu: str):
     bank_account = session.query(BankAccount).filter_by(cbu=cbu).one_or_none()
     return bank_account.user if bank_account else None
+
+
+def handle_external_user(session: Session, access_code: str) -> str:
+    jwt, data = auth.handle_external_login(access_code)
+    username = data["Nombre"] + data["Apellido"]
+    if user_already_exists(session, username):
+        return jwt
+    user_data = UserCreate(
+        name=data["Nombre"],
+        surname=data["Apellido"],
+        email=data["Email"],
+        cuil=data["Cuil"],
+        username=username,
+        password="RENAPER",
+        age=18,
+    )
+    create_user(session=session, form_data=user_data)
+    return jwt

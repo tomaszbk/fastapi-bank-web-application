@@ -3,9 +3,7 @@ from loguru import logger
 
 from app.config import templates
 from app.infrastructure.engine import postgres_session_factory
-from app.schemas.user import UserCreate
-from app.services.auth import auth
-from app.services.user import create_user
+from app.services.user import handle_external_user
 
 router = APIRouter()
 
@@ -15,18 +13,8 @@ async def index(request: Request, queryParametro: str | None = None):
     logger.info(queryParametro)
     code = queryParametro
     if code:
-        jwt, data = await auth.handle_external_login(code)
         session = postgres_session_factory.get_session_no_yield()
-        user_data = UserCreate(
-            name=data["Nombre"],
-            surname=data["Apellido"],
-            email=data["Email"],
-            cuil=data["Cuil"],
-            username=data["Nombre"] + data["Apellido"],
-            password="RENAPER",
-            age=18,
-        )
-        create_user(session=session, form_data=user_data)
+        jwt = await handle_external_user(session, code)
         session.close()
     else:
         jwt = None
